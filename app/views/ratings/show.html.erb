@@ -1,0 +1,21 @@
+<h1><%= @rating.title %></h1>
+
+<p id="notice"><%= notice %></p>
+
+<% for item in @rating.items.sort_by(&:rating).reverse %>
+  <div class="well">
+    <%= link_to "↑", vote_path(@rating, item.id) , :class => "btn-plus" %>
+    <%= item.rating %>
+    <%= link_to "↓", vote_path(@rating, item.id, :v => -1) , :class => "btn-minus" %>
+    <%= item.title %>
+  </div>
+<% end %>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<%= link_to 'Edit', edit_rating_path(@rating) %> |
+<%= link_to 'Back', ratings_path %>
