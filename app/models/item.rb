@@ -14,6 +14,10 @@ class Item < OpenStruct
   end
 
   def to_s
-    self.class.dumb(self)
+    title
+  end
+
+  def to_param
+    id
   end
 end

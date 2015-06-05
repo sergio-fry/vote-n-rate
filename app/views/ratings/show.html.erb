@@ -7,26 +7,38 @@
 
 <p id="notice"><%= notice %></p>
 
-<% @rating.items.sort_by(&:rating).reverse.each_with_index do |item, index| %>
-  <div class="row item">
-    <div class="col-xs-1 hidden-xs">
-      <div class="position">
-        <%= index + 1 %>.
+<div class="rating">
+  <% @rating.items.sort_by(&:rating).reverse.each_with_index do |item, index| %>
+    <div class="row item">
+      <div class="col-xs-1 hidden-xs">
+        <div class="position">
+          <%= index + 1 %>.
+        </div>
       </div>
-    </div>
-    <div class="col-xs-1 vote-area">
-      <%= link_to vote_rating_item_path(@rating, item.id) , :class => "btn btn-xs btn-default btn-vote", "data-already-voted" => (already_voted?(item.id) ? 1 : 0), "data-item-id" => item.id, "data-rating" => item.rating do %>
-        <%= item.rating %>
-      <% end %>
-    </div>
+      <div class="col-xs-1 vote-area">
+        <%= link_to vote_rating_item_path(@rating, item.id) , :class => "btn btn-xs btn-default btn-vote", "data-already-voted" => (already_voted?(item.id) ? 1 : 0), "data-item-id" => item.id, "data-rating" => item.rating do %>
+          <%= item.rating %>
+        <% end %>
+      </div>
 
-    <div class="col-xs-7 col-xs-offset-1">
-      <div class="title">
-        <%= item.title %>
+      <div class="col-xs-8 col-sm-offset-1 col-xs-offset-1 col-md-9 col-md-offset-1">
+        <div class="title">
+          <%= item.title %>
+          <div class="controls pull-right">
+            <%= link_to 'Удалить', rating_item_path(@rating, item), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs" %>
+          </div>
+        </div>
       </div>
     </div>
+    <hr />
+  <% end %>
+</div>
+
+<%= form_tag rating_items_path(@rating), :class => "form form-inline" do %>
+  <div class="form-group">
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="Заголовок" name="item[title]">
   </div>
-  <hr />
+  <button type="submit" class="btn btn-primary">Добавить новый элемент</button>
 <% end %>
 
 <br />
