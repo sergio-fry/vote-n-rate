@@ -2,4 +2,24 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body { font-size: 16px }
+
+.ratings-show {
+  h1 { font-size: 40pt }
+  .item {
+    margin: 20px;
+    min-width: 400px;
+
+    .position { font-size: 22pt; padding-right: 30px }
+
+    .vote-area {
+      min-width: 80px;
+
+      .btn-vote { width: 74px; position: relative; top: 10px; }
+      //.rating { font-size: 11pt; width: 30px; height: 22px }
+    }
+
+    .title { font-size: 22pt;  }
+
+  }
+
+}
