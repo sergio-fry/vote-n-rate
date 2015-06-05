@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
-  get 'rating/:id/items/:item_id/vote' => 'ratings#vote', as: :vote
   root "ratings#index"
-  resources :ratings
+
+  resources :ratings do
+    resources :items do
+      member do
+        post :vote
+      end
+    end
+  end
+  #get 'rating/:id/items/:item_id/vote' => 'ratings#vote', as: :vote
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
