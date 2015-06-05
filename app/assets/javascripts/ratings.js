@@ -1,4 +1,3 @@
-
 var VoteButton = Backbone.View.extend({
   initialize: function() {
     this.already_voted = !!this.$el.data("already-voted");
@@ -16,7 +15,7 @@ var VoteButton = Backbone.View.extend({
 
   render: function() {
 
-    this.$el.html(this.template({text: this.already_voted ? "Отмена" :"Голосовать", rating: this.rating}));
+    this.$el.html(this.template({text: this.already_voted ? "отмена" :"голосовать", rating: this.rating}));
 
     this.onHoverOut();
 

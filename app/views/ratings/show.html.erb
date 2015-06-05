@@ -15,8 +15,8 @@
       </div>
     </div>
     <div class="col-xs-1 vote-area">
-      <%= link_to vote_path(@rating, item.id) , :class => "btn btn-xs btn-default btn-vote", "data-already-voted" => (already_voted?(item.id) ? 1 : 0), "data-item-id" => item.id, "data-rating" => item.rating do %>
-        голосовать
+      <%= link_to vote_rating_item_path(@rating, item.id) , :class => "btn btn-xs btn-default btn-vote", "data-already-voted" => (already_voted?(item.id) ? 1 : 0), "data-item-id" => item.id, "data-rating" => item.rating do %>
+        <%= item.rating %>
       <% end %>
     </div>
 

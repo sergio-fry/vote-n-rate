@@ -1,8 +1,6 @@
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :vote, :edit, :update, :destroy]
 
-  helper_method :already_voted?
-
   # GET /ratings
   # GET /ratings.json
   def index
@@ -12,18 +10,6 @@ class RatingsController < ApplicationController
   # GET /ratings/1
   # GET /ratings/1.json
   def show
-  end
-
-  def vote
-    delta = (params[:v].to_i < 0) ? -1 : 1
-
-    if already_voted?(params[:item_id])
-      unvote(params[:item_id])
-    else
-      vote_for(params[:item_id], delta)
-    end
-
-    redirect_to @rating
   end
 
   # GET /ratings/new
@@ -76,29 +62,6 @@ class RatingsController < ApplicationController
   end
 
   private
-
-  def already_voted?(item_id)
-    Rails.cache.exist? "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}"
-  end
-
-  def unvote(item_id)
-    return unless already_voted?(item_id)
-
-    delta = Rails.cache.read "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}"
-    @rating.vote_for(item_id, -delta.to_f)
-
-    Rails.cache.delete "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}"
-  end
-
-  def vote_for(item_id, delta)
-    Rails.cache.fetch "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}", expires_in: 30.minutes do
-      @rating.vote_for(item_id, delta)
-
-      delta.to_f
-    end
-  end
-
-
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
       @rating = Rating.find(params[:id])
