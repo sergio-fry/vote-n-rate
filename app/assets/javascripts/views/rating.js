@@ -33,6 +33,8 @@ var RatingView = Backbone.View.extend({
     var self = this;
 
     _.chain(this.items).sortBy(function(el) {
+      return el.model.get("title");
+    }).sortBy(function(el) {
       return -el.model.get("rating");
     }).each(function(el, i) {
       el.position = i + 1;
@@ -57,6 +59,7 @@ var RatingView = Backbone.View.extend({
     })
 
     this.$el.empty().append(buf);
+    this.update_order();
   },
 
 })
