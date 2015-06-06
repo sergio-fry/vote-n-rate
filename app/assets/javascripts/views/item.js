@@ -9,6 +9,10 @@ var ItemView = Backbone.View.extend({
     this.render();
   },
 
+  events: {
+    "click .destroy": "onDestroy",
+  },
+
   template_controls: _.template("<div class='controls pull-right'><a href'<%= url %>' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
 
   render: function() {
@@ -20,8 +24,17 @@ var ItemView = Backbone.View.extend({
     item = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
     item.rating_path = this.rating_path;
     item.render();
+
+
+    this.$(".title").append(this.template_controls({ url: this.rating_path }));
     
     return this;
+  },
+
+  onDestroy: function() {
+    if(confirm("Действительно хотите удалить этот пункт?")) {
+      this.remove();
+    }
   },
 });
 
