@@ -17,8 +17,6 @@ var RatingView = Backbone.View.extend({
   },
 
   update_order: function() {
-    console.log("order");
-
     var buf = $("<div>");
     var self = this;
 

@@ -25,4 +25,12 @@ class Rating < ActiveRecord::Base
 
     item
   end
+
+  def update_item(item_id, attributes)
+    item = items.find { |it| it.id == item_id }
+
+    item.attributes = attributes
+
+    update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
+  end
 end

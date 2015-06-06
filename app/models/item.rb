@@ -13,6 +13,10 @@ class Item < OpenStruct
     [item.id, item.title, item.rating].join("|")
   end
 
+  def attributes=(new_attrs)
+    self.title = new_attrs[:title]
+  end
+
   def to_s
     title
   end

@@ -17,6 +17,14 @@ class ItemsController < ApplicationController
     render json: @item
   end
 
+  def update
+    @item = @rating.items.find { |it| it.id == params[:id] }
+
+    @rating.update_item(params[:id], params[:item])
+
+    render json: @item
+  end
+
   def unvote
     @item = @rating.items.find { |it| it.id == params[:id] }
 
