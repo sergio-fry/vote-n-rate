@@ -29,12 +29,16 @@ var ItemView = Backbone.View.extend({
     item.render();
 
 
-    this.$(".controls").append(this.template_controls({ url: this.rating_path }));
+    if(this.can_edit) {
+      this.$(".controls").append(this.template_controls({ url: this.rating_path }));
+    }
     
     return this;
   },
 
   onEdit: function() {
+    if(!this.can_edit) return;
+
     var edit_form = $("<form class='edit_form form'>");
     var input = $("<input class='input form-control'>").val(this.model.get("title"));
     edit_form.append(input);
