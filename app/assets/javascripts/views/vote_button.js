@@ -10,11 +10,11 @@ var VoteButtonView = Backbone.View.extend({
     "click": "onClick",
   },
 
-  template: _.template("<a href='#' class='btn btn-xs btn-default btn-vote'><div class='vote-teaser'><%= text %></div><div class='rating'><%= rating %></div></a>"),
+  template: _.template("<a href='#' class='btn btn-xs btn-primary btn-vote'><span class='vote-teaser'><i class='fa fa-arrow-circle-up'></i></span><span class='rating'><%= rating %></span></a>"),
           
 
   render: function() {
-    this.$el.html(this.template({text: this.already_voted() ? "отмена" :"голосовать", rating: this.model.get("rating")}));
+    this.$el.html(this.template({rating: this.model.get("rating")}));
 
     this.onHoverOut();
 
@@ -57,25 +57,17 @@ var VoteButtonView = Backbone.View.extend({
 
   onHover: function() {
     if(this.already_voted()) {
-      this.$el.find(".rating").addClass("hidden");
-      this.$el.find(".vote-teaser").removeClass("hidden");
+      this.$(".btn").removeClass("btn-success");
       this.$(".btn").addClass("btn-danger");
     } else {
-      this.$el.find(".vote-teaser").addClass("hidden");
-      this.$el.find(".rating").removeClass("hidden");
-      this.$(".btn").addClass("btn-primary");
     }
   },
 
   onHoverOut: function() {
     if(this.already_voted()) {
-      this.$el.find(".rating").removeClass("hidden");
-      this.$el.find(".vote-teaser").addClass("hidden");
+      this.$(".btn").addClass("btn-success");
       this.$(".btn").removeClass("btn-danger");
     } else {
-      this.$el.find(".rating").addClass("hidden");
-      this.$el.find(".vote-teaser").removeClass("hidden");
-      this.$(".btn").removeClass("btn-primary");
     }
   },
   already_voted: function() {
