@@ -10,16 +10,16 @@ var VoteButtonView = Backbone.View.extend({
   },
 
   events: {
-    "mouseenter": "onHover",
-    "mouseleave": "onHoverOut",
-    "click": "onClick",
+    "mouseenter .btn": "onHover",
+    "mouseleave .btn": "onHoverOut",
+    "click .btn": "onClick",
   },
 
-  template: _.template("<a href='#' class='btn btn-xs btn-primary btn-vote'><span class='vote-teaser'><i class='fa fa-arrow-circle-up'></i></span><span class='rating'><%= rating %></span></a>"),
+  template: _.template("<a href='#' class='btn btn-xs btn-circle btn-vote'></a>"),
           
 
   render: function() {
-    this.$el.html(this.template({rating: this.model.get("rating")}));
+    this.$el.html(this.template());
 
     this.onHoverOut();
 
@@ -60,17 +60,29 @@ var VoteButtonView = Backbone.View.extend({
 
   onHover: function() {
     if(this.already_voted()) {
-      this.$(".btn").removeClass("btn-success");
+      this.$(".btn").html("<i class='glyphicon glyphicon-minus'></i>").attr("title", "Забрать свой голос");
       this.$(".btn").addClass("btn-danger");
+      this.$(".btn").removeClass("btn-success");
     } else {
+      this.$(".btn").html("<i class='glyphicon glyphicon-arrow-up'></i>").attr("title", "Поддержать");
+      this.$(".btn").addClass("btn-primary");
+      this.$(".btn").removeClass("btn-default");
     }
   },
 
   onHoverOut: function() {
-    if(this.already_voted()) {
-      this.$(".btn").addClass("btn-success");
-      this.$(".btn").removeClass("btn-danger");
+    if(this.model.get("rating") > 0) {
+      this.$(".btn").text(this.model.get("rating"));
     } else {
+      this.$(".btn").html("<i class='glyphicon glyphicon-arrow-up'></i>").attr("title", "Поддержать");
+    }
+
+    if(this.already_voted()) {
+      this.$(".btn").removeClass("btn-danger");
+      this.$(".btn").addClass("btn-success");
+    } else {
+      this.$(".btn").removeClass("btn-primary");
+      this.$(".btn").addClass("btn-default");
     }
   },
   already_voted: function() {
