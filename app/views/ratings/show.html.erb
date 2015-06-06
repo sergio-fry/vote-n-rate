@@ -7,7 +7,7 @@
 
 <p id="notice"><%= notice %></p>
 
-<div class="rating" data-source-url="<%= rating_items_path(@rating) %>" data-rating-url="<%= rating_path(@rating) %>">
+<div class="rating" data-source-url="<%= rating_items_path(@rating) %>" data-rating-path="<%= rating_path(@rating) %>">
 </div>
 
 <%= javascript_tag do %>
@@ -20,15 +20,13 @@
 <br />
 <br />
 
-<%= form_tag rating_items_path(@rating), :class => "form form-inline" do %>
-  <div class="form-group">
-    <input type="text" class="form-control" id="exampleInputName2" placeholder="Заголовок" name="item[title]">
+<div class="row">
+  <div class="col-md-7 col-md-offset-2">
+    <div class="new-item-form"></div>
   </div>
-  <button type="submit" class="btn btn-primary">Добавить новый элемент</button>
-<% end %>
+</div>
 
 <br />
 <br />
-
-<%= link_to 'Edit', edit_rating_path(@rating) %> |
-<%= link_to 'Back', ratings_path %>
+<br />
+<br />

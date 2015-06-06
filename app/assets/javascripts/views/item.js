@@ -7,13 +7,19 @@ var ItemView = Backbone.View.extend({
     this.can_edit = true;
 
     this.render();
+
+    var self = this;
+
+    this.model.on("change sync", function() {
+      self.render();
+    });
   },
 
   events: {
     "click .destroy": "onDestroy",
     "click .title": "onEdit",
     "submit .edit_form": "onSave",
-    "blur .edit_form :input": "onSave",
+    "blur .edit_form :input": "onBlur",
   },
 
   template_controls: _.template("<a href'<%= url %>' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
@@ -24,13 +30,11 @@ var ItemView = Backbone.View.extend({
       title: this.model.get("title"),
     }));
 
-    item = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
-    item.rating_path = this.rating_path;
-    item.render();
-
+    button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
+    button.render();
 
     if(this.can_edit) {
-      this.$(".controls").append(this.template_controls({ url: this.rating_path }));
+      this.$(".controls").append(this.template_controls({ url: this.model.rating_path }));
     }
     
     return this;
@@ -50,19 +54,26 @@ var ItemView = Backbone.View.extend({
 
   onSave: function() {
     var self = this;
-    self.model.set("title", this.$(".edit_form :input").val());
-    self.model.save().then(function() {
-      self.render();
-    });
 
+    self.model.save({ title: this.$(".edit_form :input").val() })
 
     return false
   },
 
+  onBlur: function() {
+    this.onSave()
+
+    return false
+  },
+
+
   onDestroy: function() {
     if(confirm("Действительно хотите удалить этот пункт?")) {
-      this.remove();
-      this.model.destroy();
+      var self = this;
+      this.$el.fadeOut(function() {
+        self.remove();
+        self.model.destroy();
+      })
     }
   },
 });

@@ -2,6 +2,11 @@ var VoteButtonView = Backbone.View.extend({
   initialize: function() {
 
     this.can_edit = true;
+    var self = this;
+
+    this.model.on("change", function() {
+      self.render();
+    });
   },
 
   events: {
@@ -24,32 +29,30 @@ var VoteButtonView = Backbone.View.extend({
   vote: function() {
     var self = this;
 
-    $.ajax(this.rating_path + "/items/" + this.model.id + "/vote", {
+    $.ajax(this.model.url() + "/vote", {
       method: "PUT",
     }).then(function(item){
-      self.model.set("rating", item.item.rating);
-      self.render();
+      self.model.set("rating", item.rating);
     });
   },
 
   unvote: function() {
     var self = this;
 
-    $.ajax(this.rating_path + "/items/" + this.model.id + "/unvote", {
+    $.ajax(this.model.url() + "/unvote", {
       method: "PUT",
     }).then(function(item){
-      self.model.set("rating", item.item.rating);
-      self.render();
+      self.model.set("rating", item.rating);
     });
   },
 
   onClick: function() {
     if(this.already_voted()) {
       this.unvote()
-      $.cookie(this.rating_path + "/" + this.model.id + "/voted", null);
+      $.cookie(this.model.url() + "/voted", null);
     } else {
       this.vote()
-      $.cookie(this.rating_path + "/" + this.model.id + "/voted", true);
+      $.cookie(this.model.url() + "/voted", true);
     }
 
     return false;
@@ -71,7 +74,7 @@ var VoteButtonView = Backbone.View.extend({
     }
   },
   already_voted: function() {
-    return !!$.cookie(this.rating_path + "/" + this.model.id + "/voted");
+    return !!$.cookie(this.model.url() + "/voted");
   }
 });
 

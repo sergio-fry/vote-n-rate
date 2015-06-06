@@ -6,14 +6,26 @@ var RatingView = Backbone.View.extend({
 
     var self = this;
 
-    this.collection.on("destroy", function(model) {
-      self.items = _(self.items).reject(function(el) {
-        return el.model == model;
-      });
-
-      self.update_order()
-    });
+    this.collection.on("add", function(model) { self.add_item(model) });
     this.collection.on("change", function() { self.update_order() });
+    this.collection.on("remove", function(model) { self.remove_item(model) });
+  },
+
+  remove_item: function(model) {
+    this.items = _(this.items).reject(function(el) {
+      return el.model == model;
+    });
+
+    this.update_order()
+  },
+
+  add_item: function(model) {
+    var view = new ItemView({model: model});
+    view.position = (this.items[this.items.length - 1] || {position: 0}).position + 1;
+    this.items.push(view);
+
+    this.$el.append(view.render().$el);
+
   },
 
   update_order: function() {
@@ -39,13 +51,13 @@ var RatingView = Backbone.View.extend({
     _(this.collection.models).each(function(item, i) {
       var view = new ItemView({model: item});
       view.position = i + 1;
-      view.rating_path = self.rating_path;
       buf.append(view.render().$el);
 
       self.items.push(view);
     })
 
     this.$el.empty().append(buf);
-  }
+  },
+
 })
 

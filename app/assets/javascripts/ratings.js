@@ -2,14 +2,14 @@
   var w = $(".ratings-show .rating");
 
   if(w.length == 1) {
-    var items = DATA["ratings/items"].map(function(item) {
-      var model =  new ItemModel(item.item);
-      model.rating_path = w.data("rating-url");
+    var collection = new ItemsCollection(DATA["ratings/items"], { rating_id: 123 });
+    collection.rating_path = w.data("rating-path");
 
-      return model;
-    });
-
-    var rating = new RatingView({ el: w, collection: new ItemsCollection(items), rating_path: w.data("rating-url") }); 
+    var rating = new RatingView({ el: w, collection: collection, rating_path: w.data("rating-url") }); 
     rating.render();
+
+
+    new NewItemFormView({ el: $(".new-item-form"), collection: collection }).render();
+
   }
 })()

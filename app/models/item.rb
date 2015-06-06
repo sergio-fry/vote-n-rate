@@ -5,7 +5,7 @@ class Item < OpenStruct
     new({
       id: id,
       title: title,
-      rating: (rating.to_i || 0)
+      rating: (rating.to_i || 0),
     })
   end
 
@@ -22,7 +22,7 @@ class Item < OpenStruct
   end
 
   def as_json(options)
-    {item: { id: id, title: title, rating: rating } }
+    { id: id, title: title, rating: rating }
   end
 
   def to_param
