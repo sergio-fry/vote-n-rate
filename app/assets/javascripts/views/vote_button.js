@@ -30,7 +30,6 @@ var VoteButtonView = Backbone.View.extend({
       self.model.set("rating", item.item.rating);
       self.render();
     });
-    return false;
   },
 
   unvote: function() {
@@ -42,8 +41,6 @@ var VoteButtonView = Backbone.View.extend({
       self.model.set("rating", item.item.rating);
       self.render();
     });
-
-    return false;
   },
 
   onClick: function() {
@@ -54,6 +51,8 @@ var VoteButtonView = Backbone.View.extend({
       this.vote()
       $.cookie(this.rating_path + "/" + this.model.id + "/voted", true);
     }
+
+    return false;
   },
 
   onHover: function() {

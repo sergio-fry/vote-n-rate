@@ -34,6 +34,7 @@ var ItemView = Backbone.View.extend({
   onDestroy: function() {
     if(confirm("Действительно хотите удалить этот пункт?")) {
       this.remove();
+      this.model.destroy();
     }
   },
 });
