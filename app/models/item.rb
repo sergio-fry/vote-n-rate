@@ -17,6 +17,10 @@ class Item < OpenStruct
     title
   end
 
+  def as_json(options)
+    {item: { id: id, title: title, rating: rating } }
+  end
+
   def to_param
     id
   end

@@ -1,16 +1,31 @@
 class ItemsController < ApplicationController
   before_action :set_rating
 
-  def vote
-    delta = (params[:v].to_i < 0) ? -1 : 1
+  def index
+    render json: @rating.items.sort_by(&:rating).reverse
+  end
 
-    if already_voted?(params[:id])
-      unvote(params[:id])
-    else
-      vote_for(params[:id], delta)
+  def vote
+    @item = @rating.items.find { |it| it.id == params[:id] }
+
+    unless already_voted?(@item.id)
+      Rails.cache.fetch "RatingsController/#{request.ip}/#{@rating.id}/#{@item.id}", expires_in: 30.minutes do
+        @rating.vote_for(@item.id, 1)
+      end
     end
 
-    redirect_to @rating
+    render json: @item
+  end
+
+  def unvote
+    @item = @rating.items.find { |it| it.id == params[:id] }
+
+    if already_voted?(@item.id)
+      @rating.vote_for(@item.id, -1)
+      Rails.cache.delete "RatingsController/#{request.ip}/#{@rating.id}/#{@item.id}"
+    end
+
+    render json: @item
   end
 
   def create
@@ -18,13 +33,13 @@ class ItemsController < ApplicationController
     @item.id = next_item_id
     @rating.add_item @item
 
-    redirect_to @rating
+    render json: @item
   end
 
   def destroy
     @rating.delete_item params[:id]
     
-    redirect_to @rating
+    render json: {}
   end
 
   private
@@ -37,23 +52,4 @@ class ItemsController < ApplicationController
   def set_rating
     @rating = Rating.find(params[:rating_id])
   end
-
-  def unvote(item_id)
-    return unless already_voted?(item_id)
-
-    delta = Rails.cache.read "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}"
-    @rating.vote_for(item_id, -delta.to_f)
-
-    Rails.cache.delete "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}"
-  end
-
-  def vote_for(item_id, delta)
-    Rails.cache.fetch "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}", expires_in: 30.minutes do
-      @rating.vote_for(item_id, delta)
-
-      delta.to_f
-    end
-  end
-
-
 end

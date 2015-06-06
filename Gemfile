@@ -47,3 +47,4 @@ group :development, :test do
   gem 'rb-readline'
 end
 
+gem 'ejs'

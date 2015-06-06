@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   resources :ratings do
     resources :items do
       member do
-        get :vote
+        put :vote
+        put :unvote
       end
     end
   end

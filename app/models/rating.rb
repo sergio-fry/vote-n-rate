@@ -22,5 +22,7 @@ class Rating < ActiveRecord::Base
     end
 
     update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
+
+    item
   end
 end
