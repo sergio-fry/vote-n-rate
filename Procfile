@@ -1,1 +1,1 @@
-web: thin -R config.ru -p $PORT start
+web: thin -R config.ru -p $PORT -C config/thin.yml start

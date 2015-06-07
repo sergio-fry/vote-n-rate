@@ -1,9 +1,9 @@
 ---
 timeout: 30
 wait: 30
-max_conns: 100
+max_conns: 1024
 environment: production
-max_persistent_conns: 20
+max_persistent_conns: 100
 servers: 1
 threaded: true
 no-epoll: true
