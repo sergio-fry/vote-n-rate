@@ -4,23 +4,26 @@ timeout 30
 preload_app true
 
 before_fork do |server, worker|
-  signal.trap 'term' do
-    puts 'unicorn master intercepting term and sending myself quit instead'
-    process.kill 'quit', process.pid
+  Signal.trap 'TERM' do
+    puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
+    Process.kill 'QUIT', Process.pid
   end
 
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.connection.disconnect!
+
+  unless ENV['DISABLE_SIDEKIQ']
+    @sidekiq_pid ||= spawn("bundle exec sidekiq -C config/sidekiq.yml")
+  end
 end
 
 after_fork do |server, worker|
-  signal.trap 'term' do
-    puts 'unicorn worker intercepting term and doing nothing. wait for master to send quit'
+  Signal.trap 'TERM' do
+    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
   end
 
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.establish_connection
 end
-
 
 
