@@ -3,3 +3,4 @@ timeout: 30
 wait: 30
 daemonize: false
 max_conns: 1024
+servers: 3
