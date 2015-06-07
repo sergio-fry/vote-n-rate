@@ -7,3 +7,4 @@ max_persistent_conns: 100
 servers: 3
 threaded: true
 no-epoll: true
+daemonize: false
