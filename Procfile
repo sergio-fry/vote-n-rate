@@ -1,1 +1,1 @@
-web: thin -R config.ru -p $PORT -C config/thin.yml start
+web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
