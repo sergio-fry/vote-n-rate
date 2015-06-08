@@ -1,40 +1,52 @@
 var RatingView = Backbone.View.extend({
   initialize: function(options) {
     this.model.on("change sync", _.bind(this.render, this));
+    this.edit_mode = false;
   },
 
   events: {
-    "click .rating-title": "onEdit",
+    "click .rendered": "onEdit",
     "submit .edit-form": "onSave",
-    "blur .edit-form :input": "onSave",
+    "reset .edit-form": "onReset",
   },
-
 
   render: function() {
     var self = this;
 
-
     this.$el.html(JST["templates/rating"]({
-      title: this.model.get("title"),
+      title: _.escape(this.model.get("title")),
+      description: _.escape(this.model.get("description")),
     }));
-
   },
 
   onEdit: function() {
     if(!this.can_edit) return;
 
-    var edit_form = $("<form class='edit-form form'>");
-    var input = $("<input class='input form-control'>").val(this.model.get("title"));
-    edit_form.append(input);
+    this.$el.html(JST["templates/rating_edit_form"]({
+      title: this.model.get("title"),
+      description: this.model.get("description"),
+    }));
 
-    this.$(".rating-title").replaceWith(edit_form);
-    input.focus();
+    this.edit_mode = true;
+
+    // TODO: focus
   },
 
-  onSave:  _.throttle(function() {
-    this.model.save({ title: this.$(".edit-form :input").val() });
+  onSave:  function() {
+    if(!this.edit_mode) return;
+
+    this.model.save({
+      title: this.$(".edit-form :input.title").val(),
+      description: this.$(".edit-form :input.description").val(),
+    });
+
+    this.edit_mode = false;
 
     return false
-  }, 100),
+  },
+
+  onReset: function() {
+    this.render();
+  }
 })
 

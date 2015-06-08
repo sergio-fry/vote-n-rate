@@ -8,7 +8,9 @@
     .edit-form {
       max-width: 600px;
     }
+    .description { max-width: 600px }
   }
+
 
   h1 { font-size: 40pt }
   .item {
@@ -32,6 +34,8 @@
   }
 
   .new-item-form {
+    max-width: 600px;
+
     .add-button { position: relative; top: 2px }
   }
 

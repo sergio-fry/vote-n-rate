@@ -22,7 +22,7 @@ var ItemView = Backbone.View.extend({
   render: function() {
     this.$el.html(JST["templates/item"]({
       position: this.position,
-      title: this.model.get("title"),
+      title: _.escape(this.model.get("title")),
     }));
 
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})

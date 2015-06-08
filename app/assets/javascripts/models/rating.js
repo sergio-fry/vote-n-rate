@@ -1,4 +1,7 @@
 var RatingModel = Backbone.Model.extend({
+  defaults: {
+  },
+
   url: function() {
     return "/ratings/" + this.id;
   },
@@ -8,7 +11,7 @@ var RatingModel = Backbone.Model.extend({
   },
 
   validate: function(attrs) {
-    if(!!attrs && (attrs.title || "").trim() == "") {
+    if(attrs.title.trim() == "") {
       return "Заголовок не может быть пустым";
     }
   }
