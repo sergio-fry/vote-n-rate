@@ -6,12 +6,14 @@ class RatingsController < ApplicationController
   # GET /ratings
   # GET /ratings.json
   def index
-    @ratings = Rating.all
+    @ratings_popular = Rating.order("views DESC, created_at DESC").limit(5)
+    @ratings_recent = Rating.where.not(id: @ratings_popular.pluck(:id)).order("created_at DESC").limit(5)
   end
 
   # GET /ratings/1
   # GET /ratings/1.json
   def show
+    Rating.where(id: params[:id]).update_all views: @rating.views + 1
   end
 
   # GET /ratings/new
