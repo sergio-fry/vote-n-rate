@@ -1,3 +1,23 @@
+<% content_for :meta_title do %>
+  <%= @rating.title %>
+<% end %>
+
+<% content_for :head do %>
+  <%= render partial: "shared/share_description", locals: { url: rating_url(@rating), text: @rating.description, title: @rating.title } %>
+  <link rel="canonical" href="<%= rating_url(@rating) %>" />
+
+  <META name="description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" /> 
+  <meta property="og:type" content="rating" /> 
+  <meta property="og:url" content="<%= rating_url(@rating) %>" /> 
+  <meta property="og:title" content="<%= @rating.title.to_s.truncate(140) %>" /> 
+  <!--
+  <meta property="og:image" content="" />
+  <link rel="image_src" href="" />
+  -->
+
+  <meta property="og:description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" />
+<% end %>
+
 <div class="rating">
   
   <div class="rating-widget text-center">
