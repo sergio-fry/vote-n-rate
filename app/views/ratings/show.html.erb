@@ -21,6 +21,8 @@
 <div class="rating">
   
   <div class="rating-widget text-center">
+    <h1><%= @rating.title %></h1>
+    <em><%= @rating.description %></em>
   </div>
 
   <br />
@@ -28,6 +30,11 @@
   <br />
 
   <div class="items">
+    <ol>
+      <% for item in @rating.items %>
+        <li><%= item.title %></li>
+    <% end %>
+    </ol>
   </div>
 
   <br />
