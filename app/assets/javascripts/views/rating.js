@@ -15,7 +15,7 @@ var RatingView = Backbone.View.extend({
 
     this.$el.html(JST["templates/rating"]({
       title: _.escape(this.model.get("title")),
-      description: _.escape(this.model.get("description")),
+      description: _.escape(this.model.get("description")).replace(/\n+/, "<br /><br />"),
     }));
   },
 
