@@ -1,5 +1,30 @@
 <div class="rating">
+  
+  <div class="rating-widget">
+  </div>
+
+  <br />
+  <br />
+  <br />
+
+  <div class="items">
+  </div>
+
+  <br />
+  <br />
+  <br />
+
+  <div class="row">
+    <div class="col-md-7 col-md-offset-2">
+      <div class="new-item-form"></div>
+    </div>
+  </div>
 </div>
+
+<br />
+<br />
+<br />
+<br />
 
 <%= javascript_tag do %>
   window.DATA = window.DATA || [];
@@ -9,17 +34,3 @@
   window.DATA["ratings/items_path"] = "<%= rating_items_path(@rating) %>";
 <% end %>
 
-<br />
-<br />
-<br />
-
-<div class="row">
-  <div class="col-md-7 col-md-offset-2">
-    <div class="new-item-form"></div>
-  </div>
-</div>
-
-<br />
-<br />
-<br />
-<br />

@@ -4,6 +4,12 @@
 
 
 .ratings-show {
+  .rating-widget {
+    .edit-form {
+      max-width: 600px;
+    }
+  }
+
   h1 { font-size: 40pt }
   .item {
     min-width: 400px;

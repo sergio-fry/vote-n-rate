@@ -14,7 +14,7 @@ var ItemView = Backbone.View.extend({
     "click .destroy": "onDestroy",
     "click .title": "onEdit",
     "submit .edit_form": "onSave",
-    "blur .edit_form :input": "onBlur",
+    "blur .edit_form :input": "onSave",
   },
 
   template_controls: _.template("<a href='#' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
@@ -47,20 +47,14 @@ var ItemView = Backbone.View.extend({
     input.focus();
   },
 
-  onSave: function() {
-    var self = this;
-
-    self.model.save({ title: this.$(".edit_form :input").val() })
-
-    return false
-  },
-
-  onBlur: function() {
-    this.onSave()
+  // при сохранении происходит перерисовка виджета, потому происходит
+  // blur поля, что приводит к дублированному сохранению. Потому
+  // делаем ограничение на сохранения не чаще, чем через 100ms
+  onSave: _.throttle(function() {
+    this.model.save({ title: this.$(".edit_form :input").val() })
 
     return false
-  },
-
+  }, 100),
 
   onDestroy: function() {
     if(confirm("Действительно хотите удалить этот пункт?")) {

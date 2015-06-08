@@ -6,11 +6,17 @@
       var collection = new ItemsCollection(DATA["ratings/items"]);
       collection.items_path = DATA["ratings/items_path"];
 
-      var rating = new RatingView({ el: w, collection: collection, model: new RatingModel(DATA["ratings/rating"]) }); 
-      rating.can_edit = current_user.get("id") == (DATA["ratings/rating"].user_id).toString();
+      var can_edit = current_user.get("id") == (DATA["ratings/rating"].user_id).toString()
+
+      var rating = new RatingView({ el: w.find(".rating-widget"), model: new RatingModel(DATA["ratings/rating"]) }); 
+      rating.can_edit = can_edit;
       rating.render();
 
-      if(rating.can_edit) {
+      var items_list = new ItemsListView({ el: w.find(".items"), collection: collection }); 
+      items_list.can_edit = can_edit;
+      items_list.render();
+
+      if(can_edit) {
         new NewItemFormView({ el: $(".new-item-form"), collection: collection }).render();
       }
     }
