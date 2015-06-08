@@ -69,13 +69,6 @@ class RatingsController < ApplicationController
 
   private
 
-  def authorize!
-    unless logged_in?
-      redirect_to "http://#{Rails.configuration.x.auth_server}/sign_in?return_url=#{root_url}"
-      false
-    end
-  end
-
   def authorize_record!
     if @rating.user_id != current_user.id
       flash[:error] = "У Вес нет прав редактировать этот рейтинг"

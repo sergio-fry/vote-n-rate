@@ -27,4 +27,11 @@ class ApplicationController < ActionController::Base
 
     OpenStruct.new(user_attrs)
   end
+
+  def authorize!
+    unless logged_in?
+      redirect_to "http://#{Rails.configuration.x.auth_server}/sign_in?return_url=#{root_url}"
+      false
+    end
+  end
 end

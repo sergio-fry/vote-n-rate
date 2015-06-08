@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home' => 'home#index', as: :home
+
   root "ratings#index"
 
   resources :ratings do
@@ -9,5 +11,4 @@ Rails.application.routes.draw do
       end
     end
   end
-  #get 'rating/:id/items/:item_id/vote' => 'ratings#vote', as: :vote
 end

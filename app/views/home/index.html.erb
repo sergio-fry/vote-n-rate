@@ -1,0 +1,37 @@
+<h1>Мои рейтинги</h1>
+<br />
+<br />
+<br />
+
+<% if @ratings.blank? %>
+  <em>Пока Вы не добавили ни одного рейтинга. Может, пора попробовать?</em>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr><th>ID</th><th>Заголовок</th><th>Дата</th><th>Просмотры</th></tr>
+    </thead>
+    <tbody>
+      <% for rating in @ratings.order("created_at DESC") %>
+        <tr>
+          <td>#<%= rating.id %></td>
+          <td><%= link_to rating.title, rating %></td>
+          <td><%= rating.created_at %></td>
+          <td><%= rating.views %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="text-center">
+  <%= link_to 'Добавить рейтинг', new_rating_path, :class => "btn btn-primary btn-lg" %>
+</div>
+<br />
+<br />
