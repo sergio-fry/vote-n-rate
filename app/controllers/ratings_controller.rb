@@ -1,5 +1,7 @@
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
+  before_filter :authorize!, except: [:show, :index]
+  before_filter :authorize_record!, only: [:update, :destroy]
 
   # GET /ratings
   # GET /ratings.json
@@ -24,11 +26,11 @@ class RatingsController < ApplicationController
   # POST /ratings
   # POST /ratings.json
   def create
-    @rating = Rating.new(rating_params)
+    @rating = Rating.new(rating_params.merge(user_id: current_user.id))
 
     respond_to do |format|
       if @rating.save
-        format.html { redirect_to @rating, notice: 'Rating was successfully created.' }
+        format.html { redirect_to @rating }
         format.json { render :show, status: :created, location: @rating }
       else
         format.html { render :new }
@@ -42,7 +44,7 @@ class RatingsController < ApplicationController
   def update
     respond_to do |format|
       if @rating.update(rating_params)
-        format.html { redirect_to @rating, notice: 'Rating was successfully updated.' }
+        format.html { redirect_to @rating }
         format.json { render :show, status: :ok, location: @rating }
       else
         format.html { render :edit }
@@ -56,12 +58,28 @@ class RatingsController < ApplicationController
   def destroy
     @rating.destroy
     respond_to do |format|
-      format.html { redirect_to ratings_url, notice: 'Rating was successfully destroyed.' }
+      format.html { redirect_to ratings_url, notice: 'Рейтинг удален навсегда' }
       format.json { head :no_content }
     end
   end
 
   private
+
+  def authorize!
+    unless logged_in?
+      redirect_to "http://#{Rails.configuration.x.auth_server}/sign_in?return_url=#{root_url}"
+      false
+    end
+  end
+
+  def authorize_record!
+    if @rating.user_id != current_user.id
+      flash[:error] = "У Вес нет прав редактировать этот рейтинг"
+      redirect_to :back
+      return
+    end
+  end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
       @rating = Rating.find(params[:id])

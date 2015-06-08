@@ -11,9 +11,28 @@
 // about supported directives.
 //
 //= require jquery_ujs
-//= require turbolinks
+//= require_tree ./lib
 //= require_tree ./templates
 //= require_tree ./models
 //= require_tree ./views
 //= require_tree .
 
+var user = new UserModel({
+  // пока не загрузились данные, показываем предыдущий аватар
+  image: $.cookie("avatar"),
+});
+
+MazavrAuth("user_info", function(info) {
+  user.set({ id: info.id, name: info.name, image: info.image });
+
+  $.cookie("avatar", info.image, { path: "/" });
+  $.cookie("auth_crypted", info.crypted, { path: "/" });
+})
+
+
+new LoginWidgetView({ el: $(".login-widget"), model: user }).render();
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+  $('[data-toggle="popover"][data-static="true"]').popover('show')
+})

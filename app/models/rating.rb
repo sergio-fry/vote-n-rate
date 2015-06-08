@@ -1,4 +1,7 @@
 class Rating < ActiveRecord::Base
+  validates :title, :presence => true
+  validates :user_id, :presence => true
+
   def items
     @_items ||= 
       super.to_s.split("\n").map do |line|

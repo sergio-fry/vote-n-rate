@@ -54,3 +54,6 @@ gem 'ejs'
 group :production do
   gem 'newrelic_rpm'
 end
+
+gem 'jwt'
+gem 'russian'

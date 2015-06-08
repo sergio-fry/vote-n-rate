@@ -1,21 +1,15 @@
 <%= form_for(@rating) do |f| %>
-  <% if @rating.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@rating.errors.count, "error") %> prohibited this rating from being saved:</h2>
-
-      <ul>
-      <% @rating.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    
+  <div class="field form-group <%= "has-error" if @rating.errors[:title].present? %>">
+    <%= f.label :title, "Заголовок" %><br>
+    <%= f.text_field :title, :class => "form-control", :placeholder => "Для начала придумайте название рейтинга", "data-container" => "body", "data-toggle" => "popover", "data-placement" => "bottom", "data-content" => @rating.errors[:title], "data-trigger" => "manual", "data-static" => true  %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <div class="actions text-center">
+    <%= f.submit "Дальше →", :class => "btn btn-primary" %>
   </div>
 <% end %>

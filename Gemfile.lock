@@ -72,6 +72,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    jwt (1.5.0)
     kgio (2.9.2)
     libv8 (3.16.14.7)
     loofah (2.0.2)
@@ -135,6 +136,8 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
+    russian (0.6.0)
+      i18n (>= 0.5.0)
     sass (3.4.14)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -186,11 +189,13 @@ DEPENDENCIES
   factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails
+  jwt
   newrelic_rpm
   pg
   rails (= 4.2.0)
   rb-readline
   rspec-rails
+  russian
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
