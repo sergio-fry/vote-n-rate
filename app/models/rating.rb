@@ -2,6 +2,8 @@ class Rating < ActiveRecord::Base
   validates :title, :presence => true
   validates :user_id, :presence => true
 
+  before_save :set_state
+
   def items
     @_items ||= 
       super.to_s.split("\n").map do |line|
@@ -35,5 +37,11 @@ class Rating < ActiveRecord::Base
     item.attributes = attributes
 
     update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
+  end
+
+  private
+
+  def set_state
+    self.state = items.size == 0 ? "draft" : "published"
   end
 end

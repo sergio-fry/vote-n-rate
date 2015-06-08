@@ -17,7 +17,7 @@ var ItemView = Backbone.View.extend({
     "blur .edit_form :input": "onBlur",
   },
 
-  template_controls: _.template("<a href'<%= url %>' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
+  template_controls: _.template("<a href='#' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
 
   render: function() {
     this.$el.html(JST["templates/item"]({
@@ -29,7 +29,7 @@ var ItemView = Backbone.View.extend({
     button.render();
 
     if(this.can_edit) {
-      this.$(".controls").append(this.template_controls({ url: this.model.rating_path }));
+      this.$(".controls").append(this.template_controls());
     }
     
     return this;

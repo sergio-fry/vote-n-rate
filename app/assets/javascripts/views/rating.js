@@ -1,7 +1,5 @@
 var RatingView = Backbone.View.extend({
   initialize: function(options) {
-    this.rating_path = options.rating_path;
-
     this.items = [];
 
     var self = this;
@@ -25,7 +23,7 @@ var RatingView = Backbone.View.extend({
     view.position = (this.items[this.items.length - 1] || {position: 0}).position + 1;
     this.items.push(view);
 
-    this.$el.append(view.render().$el);
+    this.$items.append(view.render().$el);
 
   },
 
@@ -43,7 +41,7 @@ var RatingView = Backbone.View.extend({
       buf.append(el.$el);
     });
 
-    this.$el.empty().append(buf);
+    this.$items.empty().append(buf);
   },
 
   render: function() {
@@ -51,14 +49,21 @@ var RatingView = Backbone.View.extend({
 
     var buf = $("<div>");
 
+    buf.html(JST["templates/rating"]({
+      title: this.model.get("title"),
+    }));
+
+    this.$items = buf.find(".items");
+
     _(this.collection.models).each(function(item, i) {
       var view = new ItemView({model: item});
       view.can_edit = self.can_edit;
       view.position = i + 1;
-      buf.append(view.render().$el);
+      self.$items.find(".items").append(view.render().$el);
 
       self.items.push(view);
     })
+
 
     this.$el.empty().append(buf);
     this.update_order();

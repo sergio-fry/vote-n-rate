@@ -1,21 +1,12 @@
-<center>
-<h1><%= @rating.title %></h1>
-</center>
-<br />
-<br />
-<br />
-
-<p id="notice"><%= notice %></p>
-
-<div class="rating" data-source-url="<%= rating_items_path(@rating) %>" data-rating-path="<%= rating_path(@rating) %>">
+<div class="rating">
 </div>
 
 <%= javascript_tag do %>
   window.DATA = window.DATA || [];
 
   window.DATA["ratings/items"] = <%= raw json_escape(@rating.items.sort_by(&:rating).reverse.to_json) %>;
-  window.DATA["ratings/id"] = <%= @rating.id %>;
-  window.DATA["ratings/user_id"] = <%= @rating.user_id %>;
+  window.DATA["ratings/rating"] = <%= raw json_escape(@rating.as_json(except: :items).to_json) %>;
+  window.DATA["ratings/items_path"] = "<%= rating_items_path(@rating) %>";
 <% end %>
 
 <br />

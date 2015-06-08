@@ -4,13 +4,11 @@
 
     if(w.length == 1) {
       var collection = new ItemsCollection(DATA["ratings/items"]);
-      collection.rating_path = w.data("rating-path");
+      collection.items_path = DATA["ratings/items_path"];
 
-      var rating = new RatingView({ el: w, collection: collection, rating_path: w.data("rating-url") }); 
-      rating.can_edit = current_user.get("id") == (DATA["ratings/user_id"]).toString();
-      rating.id = DATA["ratings/id"];
+      var rating = new RatingView({ el: w, collection: collection, model: new RatingModel(DATA["ratings/rating"]) }); 
+      rating.can_edit = current_user.get("id") == (DATA["ratings/rating"].user_id).toString();
       rating.render();
-
 
       if(rating.can_edit) {
         new NewItemFormView({ el: $(".new-item-form"), collection: collection }).render();

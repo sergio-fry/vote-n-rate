@@ -6,8 +6,8 @@ class RatingsController < ApplicationController
   # GET /ratings
   # GET /ratings.json
   def index
-    @ratings_popular = Rating.order("views DESC, created_at DESC").limit(5)
-    @ratings_recent = Rating.where.not(id: @ratings_popular.pluck(:id)).order("created_at DESC").limit(5)
+    @ratings_popular = Rating.where(state: "published").order("views DESC, created_at DESC").limit(5)
+    @ratings_recent = Rating.where(state: "published").where.not(id: @ratings_popular.pluck(:id)).order("created_at DESC").limit(5)
   end
 
   # GET /ratings/1
@@ -86,7 +86,12 @@ class RatingsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
-      @rating = Rating.find(params[:id])
+      @rating = Rating.find_by(id: params[:id])
+
+      if @rating.blank?
+        redirect_to root_path
+        return
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

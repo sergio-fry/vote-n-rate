@@ -6,9 +6,10 @@ var ItemModel = Backbone.Model.extend({
     var url;
 
     if(this.isNew()){
-      url = this.collection.rating_path + "/items";
-    } else {this.collection.rating_path
-      url = this.collection.rating_path + "/items/" + this.id;
+      url = this.collection.items_path;
+    } else {
+      if(this.collection == undefined) return; //oops
+      url = this.collection.items_path + "/" + this.id;
     }
 
     return url;

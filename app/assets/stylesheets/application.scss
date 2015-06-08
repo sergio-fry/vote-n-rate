@@ -15,7 +15,9 @@
  */
 
 
-#logo {  }
+#logo {
+  a { color: black; font-style: italic; font-size: 13pt; }
+}
 .login-widget {
   float: right;
 
