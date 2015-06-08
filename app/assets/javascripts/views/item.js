@@ -3,11 +3,6 @@ var ItemView = Backbone.View.extend({
     this.already_voted = !!this.$el.data("already-voted");
     this.rating = this.$el.data("rating");
 
-    // TODO: проверка, может ли редактировать
-    this.can_edit = true;
-
-    this.render();
-
     var self = this;
 
     this.model.on("change sync", function() {

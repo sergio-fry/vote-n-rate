@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :set_rating
+  before_filter :authorize!, except: [:index, :vote, :unvote]
 
   def index
     render json: @rating.items.sort_by(&:rating).reverse
@@ -51,6 +52,13 @@ class ItemsController < ApplicationController
   end
 
   private
+
+  def authorize!
+    if @rating.user_id != current_user.id
+      render :text => "Запрещено: не Ваш рейтинг", status: 403
+      false
+    end
+  end
 
   # если будут дубликаты, то это признание проекта
   def next_item_id

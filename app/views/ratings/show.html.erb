@@ -14,6 +14,8 @@
   window.DATA = window.DATA || [];
 
   window.DATA["ratings/items"] = <%= raw json_escape(@rating.items.sort_by(&:rating).reverse.to_json) %>;
+  window.DATA["ratings/id"] = <%= @rating.id %>;
+  window.DATA["ratings/user_id"] = <%= @rating.user_id %>;
 <% end %>
 
 <br />

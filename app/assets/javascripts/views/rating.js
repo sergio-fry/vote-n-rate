@@ -21,6 +21,7 @@ var RatingView = Backbone.View.extend({
 
   add_item: function(model) {
     var view = new ItemView({model: model});
+    view.can_edit = this.can_edit;
     view.position = (this.items[this.items.length - 1] || {position: 0}).position + 1;
     this.items.push(view);
 
@@ -52,6 +53,7 @@ var RatingView = Backbone.View.extend({
 
     _(this.collection.models).each(function(item, i) {
       var view = new ItemView({model: item});
+      view.can_edit = self.can_edit;
       view.position = i + 1;
       buf.append(view.render().$el);
 

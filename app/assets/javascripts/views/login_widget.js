@@ -20,6 +20,9 @@ var LoginWidgetView = Backbone.View.extend({
     if(this.model.logged_in()) {
       html.find("ul").append('<li role="presentation" class="dropdown-header">'+this.model.get("name")+'</li>')
       html.find("ul").append("<li><a href='/ratings/new' class='btn-add-rating'>Создать свой рейтинг</a></li>")
+
+      html.find("ul").append("<li class='divider'></li>")
+    
       html.find("ul").append("<li><a href='#' class='btn-logout'>Выйти</a></li>")
       
     } else {

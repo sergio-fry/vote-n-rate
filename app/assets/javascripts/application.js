@@ -17,20 +17,26 @@
 //= require_tree ./views
 //= require_tree .
 
-var user = new UserModel({
+window.current_user = new UserModel({
   // пока не загрузились данные, показываем предыдущий аватар
   image: $.cookie("avatar"),
 });
 
+DisplayRating(current_user);
+
 MazavrAuth("user_info", function(info) {
-  user.set({ id: info.id, name: info.name, image: info.image });
+  current_user.set({ id: info.id, name: info.name, image: info.image });
+
+  if(current_user.logged_in()) {
+    DisplayRating(current_user);
+  }
 
   $.cookie("avatar", info.image, { path: "/" });
   $.cookie("auth_crypted", info.crypted, { path: "/" });
 })
 
 
-new LoginWidgetView({ el: $(".login-widget"), model: user }).render();
+new LoginWidgetView({ el: $(".login-widget"), model: current_user }).render();
 
 $(function () {
   $('[data-toggle="popover"]').popover()
