@@ -1,16 +1,10 @@
 class Item < OpenStruct
   def self.load(line)
-    id, title, rating = line.strip.split("|")
-
-    new({
-      id: id,
-      title: title,
-      rating: (rating.to_i || 0),
-    })
+    new(JSON.parse(line))
   end
 
   def self.dumb(item)
-    [item.id, item.title, item.rating].join("|")
+    to_json.to_s
   end
 
   def attributes=(new_attrs)
