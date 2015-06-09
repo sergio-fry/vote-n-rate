@@ -56,8 +56,15 @@
 <br />
 
 <center>
-  <%= render :partial => 'comments' %>
+  <% if Rails.env.production? %>
+    <%= render :partial => 'comments' %>
+  <% else %>
+    <h2>Комментарии</h2>
+  <% end %>
 </center>
+<br />
+<br />
+<br />
 
 
 <center>
