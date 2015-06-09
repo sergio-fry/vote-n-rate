@@ -7,6 +7,10 @@ class Item < OpenStruct
     item.to_json.to_s
   end
 
+  def rating
+    super.to_i
+  end
+
   def attributes=(new_attrs)
     self.title = new_attrs[:title]
     self.picture = new_attrs[:picture]
