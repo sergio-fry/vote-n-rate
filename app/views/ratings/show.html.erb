@@ -16,6 +16,10 @@
   -->
 
   <meta property="og:description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" />
+
+  <!-- Put this script tag to the <head> of your page -->
+  <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
+
 <% end %>
 
 <div class="rating">
@@ -50,6 +54,11 @@
 <br />
 <br />
 <br />
+
+<center>
+  <%= render :partial => 'comments' %>
+</center>
+
 
 <center>
   <% for rating in @rating.similar.limit(5) %>
