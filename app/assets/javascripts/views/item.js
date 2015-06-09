@@ -33,6 +33,10 @@ var ItemView = Backbone.View.extend({
 
     if(!!this.model.get("picture")) {
       this.$(".picture").css({ "background-image": "url('" + this.model.get("picture") + "')" });
+    } else {
+      if(!this.can_edit) {
+        this.$(".picture-lg").remove();
+      }
     }
 
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
