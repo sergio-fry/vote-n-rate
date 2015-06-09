@@ -74,6 +74,8 @@ var ItemView = Backbone.View.extend({
         self.model.destroy();
       })
     }
+
+    return false
   },
 
   onHoverPicture: function() {
