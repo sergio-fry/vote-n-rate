@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     scope 'uploader', controller: "uploader" do
       post 'upload', action: :upload_file
       get 'file/:id', action: :file
+      get 'file'
     end
   end
 
