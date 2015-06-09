@@ -31,4 +31,13 @@ ActiveRecord::Schema.define(version: 20150609111450) do
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
   add_index "ratings", ["views"], name: "index_ratings_on_views", using: :btree
 
+  create_table "uploads", force: :cascade do |t|
+    t.text     "owner",      null: false
+    t.text     "body",       null: false
+    t.string   "mime_type",  null: false
+    t.string   "extension",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end

@@ -15,6 +15,11 @@ var ItemView = Backbone.View.extend({
     "click .title": "onEdit",
     "submit .edit_form": "onSave",
     "blur .edit_form :input": "onSave",
+
+    "mouseenter .picture": "onHoverPicture",
+    "mouseleave .picture": "onHoverOutPicture",
+
+    "change .picture form :input.picture_file": "onPictureSelect",
   },
 
   template_controls: _.template("<a href='#' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
@@ -24,6 +29,11 @@ var ItemView = Backbone.View.extend({
       position: this.position,
       title: _.escape(this.model.get("title")),
     }));
+
+
+    if(!!this.model.get("picture")) {
+      this.$(".picture").css({ "background-image": "url('" + this.model.get("picture") + "')" });
+    }
 
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
     button.render();
@@ -64,6 +74,45 @@ var ItemView = Backbone.View.extend({
         self.model.destroy();
       })
     }
+  },
+
+  onHoverPicture: function() {
+    if(!this.can_edit) return;
+
+    // TODO: set owner
+    var form = $('<form  enctype="multipart/form-data" action="/iframe/uploader/upload" accept-charset="UTF-8" method="post"><label for="picture_'+this.model.id+'"><div class="picture_upload_label text-center">Фото</div></label><input id="picture_'+this.model.id+'" type="file" class="picture_file hidden" name="file" ></form>');
+
+    this.$(".picture").html(form);
+  },
+
+  onHoverOutPicture: function() {
+    if(!this.can_edit) return;
+
+    this.$(".picture form").remove();
+  },
+
+  onPictureSelect: function() {
+    if(!this.can_edit) return;
+
+    var self = this;
+
+    this.$(".picture form").submit(function(e) {
+      $.ajax( {
+        url: '/iframe/uploader/upload',
+        type: 'POST',
+        data: new FormData( this ),
+        processData: false,
+        contentType: false
+      } ).then(function(data) {
+        if(!!data["error"]) {
+          alert(data["error"]);
+        } else {
+          self.model.save({picture: data["picture"]});
+        }
+      });
+
+      e.preventDefault();
+    }).submit();
   },
 });
 

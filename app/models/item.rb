@@ -4,11 +4,12 @@ class Item < OpenStruct
   end
 
   def self.dumb(item)
-    to_json.to_s
+    item.to_json.to_s
   end
 
   def attributes=(new_attrs)
     self.title = new_attrs[:title]
+    self.picture = new_attrs[:picture]
   end
 
   def to_s
@@ -16,7 +17,7 @@ class Item < OpenStruct
   end
 
   def as_json(options)
-    { id: id, title: title, rating: rating }
+    { id: id, title: title, rating: rating, picture: picture }
   end
 
   def to_param

@@ -59,3 +59,4 @@ gem 'jwt'
 gem 'russian'
 gem 'twitter-text'
 gem 'pg_search'
+gem "mini_magick"

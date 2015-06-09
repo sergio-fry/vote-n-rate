@@ -31,6 +31,16 @@
     }
 
     .title { font-size: 22pt;  }
+
+    .picture {
+      .picture_upload_label {
+        width: 50px; height: 50px; background: #eee; padding-top: 15px;
+      }
+
+      width: 50px; height: 50px; background: white;
+      background-size:cover;
+      background-position:center;
+    }
   }
 
   .new-item-form {
