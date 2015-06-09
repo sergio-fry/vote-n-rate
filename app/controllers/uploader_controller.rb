@@ -22,7 +22,7 @@ class UploaderController < ApplicationController
 
     @upload.save!
 
-    render json: { picture: url_for(:action => :file, :id => @upload.id, :format => "jpeg" ) }
+    render json: { picture: url_for(:action => :file, :id => "#{@upload.id}-#{@upload.updated_at.to_i}", :format => "jpeg" ) }
   rescue StandardError => ex
     logger.error ex.backtrace
     render json: { error: "Ошибка при загрузке изображения" }

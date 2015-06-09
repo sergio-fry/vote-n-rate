@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   scope 'iframe' do
     scope 'uploader', controller: "uploader" do
       post 'upload', action: :upload_file
-      get 'file'
+      get 'file/:id', action: :file
     end
   end
 
