@@ -2,7 +2,7 @@
     
   <div class="field form-group <%= "has-error" if @rating.errors[:title].present? %>">
     <%= f.label :title, "Заголовок" %><br>
-    <%= f.text_field :title, :class => "form-control", :placeholder => "Для начала придумайте название рейтинга", "data-container" => "body", "data-toggle" => "popover", "data-placement" => "bottom", "data-content" => @rating.errors[:title], "data-trigger" => "manual", "data-static" => true  %>
+    <%= f.text_field :title, :class => "form-control", :placeholder => "Придумайте название рейтинга", "data-container" => "body", "data-toggle" => "popover", "data-placement" => "bottom", "data-content" => @rating.errors[:title], "data-trigger" => "manual", "data-static" => true  %>
   </div>
   <br />
   <br />
