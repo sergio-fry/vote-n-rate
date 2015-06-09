@@ -6,8 +6,8 @@ class RatingsController < ApplicationController
   # GET /ratings
   # GET /ratings.json
   def index
-    @ratings_popular = Rating.where(state: "published").order("views DESC, created_at DESC").limit(5)
-    @ratings_recent = Rating.where(state: "published").where.not(id: @ratings_popular.pluck(:id)).order("created_at DESC").limit(5)
+    @ratings_popular = Rating.published.order("views DESC, created_at DESC").limit(5)
+    @ratings_recent = Rating.published.where.not(id: @ratings_popular.pluck(:id)).order("created_at DESC").limit(5)
   end
 
   # GET /ratings/1

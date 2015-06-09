@@ -57,3 +57,5 @@ end
 
 gem 'jwt'
 gem 'russian'
+gem 'twitter-text'
+gem 'pg_search'

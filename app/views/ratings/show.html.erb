@@ -51,6 +51,12 @@
 <br />
 <br />
 
+<center>
+  <% for rating in @rating.similar.limit(5) %>
+    <h2><%= link_to rating.title, rating %></h2>
+  <% end %>
+</center>
+
 <%= javascript_tag do %>
   window.DATA = window.DATA || [];
 

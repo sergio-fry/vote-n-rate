@@ -1,8 +1,18 @@
 class Rating < ActiveRecord::Base
+  include PgSearch
+
   validates :title, :presence => true
   validates :user_id, :presence => true
 
   before_save :set_state
+  scope :published, lambda { where(state: "published") }
+
+  pg_search_scope :search_by_hashtags,
+    :against => [:title, :description],
+    :using => {
+      :tsearch => {:any_word => true},
+      :dmetaphone => {:any_word => true, :sort_only => true},
+    }
 
   def items
     @_items ||= 
@@ -37,6 +47,14 @@ class Rating < ActiveRecord::Base
     item.attributes = attributes
 
     update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
+  end
+
+  def similar
+    self.class.search_by_hashtags(hashtags.join(" ")).where.not(id: id).published
+  end
+
+  def hashtags
+    Twitter::Extractor.extract_hashtags "#{title} #{description}"
   end
 
   private
