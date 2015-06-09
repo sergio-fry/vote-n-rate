@@ -1,4 +1,6 @@
 class UploaderController < ApplicationController
+  before_filter :authorize!, except: :file
+
   # TODO: limit file size
   def upload
     file_upload = params[:file]
@@ -12,12 +14,15 @@ class UploaderController < ApplicationController
 
     logger.info "Writing file..."
     logger.silence do
-      @upload = Upload.create({
-        owner: "nobody",
-        mime_type: file_upload.content_type,
-        extension: File.extname(file_upload.original_filename).downcase,
-        body: tempfile.read,
-      })
+      owner = "#{current_user.id}/#{params[:owner]}"
+
+      @upload = Upload.find_by(owner: owner) || Upload.new(owner: owner)
+
+      @upload.mime_type = file_upload.content_type
+      @upload.extension = File.extname(file_upload.original_filename).downcase
+      @upload.body = tempfile.read
+
+      @upload.save!
     end
 
     render json: { picture: url_for(:action => :file, :id => @upload.id, :format => "jpeg" ) }

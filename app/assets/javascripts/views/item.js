@@ -32,7 +32,7 @@ var ItemView = Backbone.View.extend({
 
 
     if(!!this.model.get("picture")) {
-      this.$(".picture").css({ "background-image": "url('" + this.model.get("picture") + "')" });
+      this.$(".picture").css({ "background-image": "url('" + this.model.get("picture") + "&r=" + Math.random() + "')" });
     }
 
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
@@ -80,9 +80,9 @@ var ItemView = Backbone.View.extend({
     if(!this.can_edit) return;
 
     // TODO: set owner
-    var form = $('<form  enctype="multipart/form-data" action="/iframe/uploader/upload" accept-charset="UTF-8" method="post"><label for="picture_'+this.model.id+'"><div class="picture_upload_label text-center">Фото</div></label><input id="picture_'+this.model.id+'" type="file" class="picture_file hidden" name="file" ></form>');
+    var form = $('<form  enctype="multipart/form-data" action="/iframe/uploader/upload" accept-charset="UTF-8" method="post"><label for="picture_'+this.model.id+'"><div class="picture_upload_label text-center">Фото</div></label><input id="picture_'+this.model.id+'" type="file" class="picture_file hidden" name="file" ><input type="hidden" name="owner" value="'+this.rating_id+"/"+this.model.id+'" /></form>');
 
-    this.$(".picture").html(form);
+    this.$(".picture:visible").html(form);
   },
 
   onHoverOutPicture: function() {
@@ -96,7 +96,7 @@ var ItemView = Backbone.View.extend({
 
     var self = this;
 
-    this.$(".picture form").submit(function(e) {
+    this.$(".picture form:visible").submit(function(e) {
       $.ajax( {
         url: '/iframe/uploader/upload',
         type: 'POST',

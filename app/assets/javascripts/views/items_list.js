@@ -23,6 +23,7 @@ var ItemsListView = Backbone.View.extend({
   add_item: function(model) {
     var view = new ItemView({model: model});
     view.can_edit = this.can_edit;
+    view.rating_id = this.rating_id;
     view.position = (this.items[this.items.length - 1] || {position: 0}).position + 1;
     this.items.push(view);
 
@@ -56,6 +57,7 @@ var ItemsListView = Backbone.View.extend({
     _(this.collection.models).each(function(item, i) {
       var view = new ItemView({model: item});
       view.can_edit = self.can_edit;
+      view.rating_id = this.rating_id;
       view.position = i + 1;
       buf.find(".items").append(view.render().$el);
 

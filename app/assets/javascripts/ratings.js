@@ -14,6 +14,7 @@
 
       var items_list = new ItemsListView({ el: w.find(".items"), collection: collection }); 
       items_list.can_edit = can_edit;
+      items_list.rating_id = DATA["ratings/rating"].id
       items_list.render();
 
       if(can_edit) {
