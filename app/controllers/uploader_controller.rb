@@ -27,6 +27,7 @@ class UploaderController < ApplicationController
 
     render json: { picture: url_for(:action => :file, :id => @upload.id, :format => "jpeg" ) }
   rescue StandardError => ex
+    logger.error ex.backtrace
     render json: { error: ex.to_s }
   end
 
