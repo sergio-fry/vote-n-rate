@@ -2,7 +2,7 @@ class UploaderController < ApplicationController
   before_filter :authorize!, except: :file
 
   # TODO: limit file size
-  def upload
+  def upload_file
     file_upload = params[:file]
 
     image = MiniMagick::Image.open(file_upload.tempfile.path)
