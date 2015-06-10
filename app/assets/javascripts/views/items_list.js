@@ -24,7 +24,11 @@ var ItemsListView = Backbone.View.extend({
     var view = new ItemView({model: model});
     view.can_edit = this.can_edit;
     view.rating_id = this.rating_id;
-    view.position = (this.items[this.items.length - 1] || {position: 0}).position + 1;
+
+    //view.position = (this.items[this.items.length - 1] || {position: 0}).position + 1;
+    view.position = (_(this.items).sortBy(function(it) { return -it.position })[0] || {position: 0}).position + 1;
+
+
     this.items.push(view);
 
     this.$el.append(view.render().$el);
@@ -36,7 +40,7 @@ var ItemsListView = Backbone.View.extend({
     var self = this;
 
     _.chain(this.items).sortBy(function(el) {
-      return el.model.get("title").toLowerCase();
+      return (el.model.get("title") || "").toLowerCase();
     }).sortBy(function(el) {
       return -el.model.get("rating");
     }).each(function(el, i) {
