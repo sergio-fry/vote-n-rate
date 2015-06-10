@@ -1,6 +1,6 @@
 <!-- teaser -->
 <div class="teaser-line">
   <% for item in Rating.published.recent.limit(100).map(&:items).flatten.reject{ |it| it.picture.blank? }.compact.sort_by{ rand }[0..20] %>
-    <%= link_to content_tag(:div, nil, :class => :picture, :style => raw("background-image: url('#{item.picture}')")), rating_path(item.rating_id) %>
+    <%= link_to content_tag(:div, nil, :class => :picture, :style => raw("background-image: url('#{item.picture}')")), rating_path(item.rating_id), :title => "#{item.title} - #{Rating.find(item.rating_id).title}" %>
   <% end %>
 </div>
