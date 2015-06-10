@@ -30,7 +30,12 @@
       .rating { padding-left: 7px }
     }
 
-    .title { font-size: 22pt;  }
+    .title-wrapper {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .title { font-size: 22pt; }
 
     .picture {
       .picture_upload_label {
