@@ -1,7 +1,18 @@
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
-  before_filter :authorize!, except: [:show, :index]
+  before_filter :authorize!, except: [:show, :index, :fake_votes]
   before_filter :authorize_record!, only: [:update, :destroy]
+  skip_before_action :verify_authenticity_token, only: :fake_votes
+
+  def fake_votes
+    @rating = Rating.find_by(id: params[:rating_id])
+
+    params[:num].to_i.times do
+      @rating.vote_for @rating.items.sample.id, 1
+    end
+
+    render :text => "OK"
+  end
 
   # GET /ratings
   # GET /ratings.json

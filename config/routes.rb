@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   scope 'iframe' do
     scope 'uploader', controller: "uploader" do
       post 'upload', action: :upload_file
@@ -13,6 +12,8 @@ Rails.application.routes.draw do
   root "ratings#index"
 
   resources :ratings do
+    put :fake_votes
+
     resources :items do
       member do
         put :vote
