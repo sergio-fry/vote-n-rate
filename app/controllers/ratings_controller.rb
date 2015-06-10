@@ -3,6 +3,7 @@ class RatingsController < ApplicationController
   before_filter :authorize!, except: [:show, :index, :fake_votes]
   before_filter :authorize_record!, only: [:update, :destroy]
   skip_before_action :verify_authenticity_token, only: :fake_votes
+  before_filter :check_subdomain, :if => lambda { Rails.env.production? }
 
   def fake_votes
     @rating = Rating.find_by(id: params[:rating_id])
@@ -102,4 +103,10 @@ class RatingsController < ApplicationController
     def rating_params
       params.require(:rating).permit(:title, :description)
     end
+
+  def check_subdomain
+    if request.host != 'vote-n-rate.ru'
+      redirect_to request.url.sub(request.host, 'vote-n-rate.ru')
+    end
+  end
 end
