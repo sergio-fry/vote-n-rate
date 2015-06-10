@@ -21,7 +21,13 @@ var NewItemFormView = Backbone.View.extend({
 
     if(title.match(/^http/)) {
       YandexRCA.request(title).then(function(data) {
-        self.collection.create({ title: data.title, picture: data.img[0], link: data.finalurl }, { wait: true })
+        var attrs = { title: data.title, link: data.finalurl };
+
+        if(!!data.img) {
+          attrs.picture = data.img[0];
+        }
+
+        self.collection.create(attrs, { wait: true })
       }, function() {
         self.collection.create({ title: title }, { wait: true })
       });
