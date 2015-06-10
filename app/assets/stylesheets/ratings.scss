@@ -35,7 +35,11 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .title { font-size: 22pt; }
+    .title {
+      font-size: 22pt;
+
+      .link { font-size: 12pt; margin-left: 10px; position: relative; top: -3px }
+    }
 
     .picture {
       .picture_upload_label {

@@ -16,7 +16,18 @@ var NewItemFormView = Backbone.View.extend({
   onSubmit: function() {
     ga('send', 'event', 'item', 'create');
 
-    this.collection.create({ title: this.$(":input.title").val() }, { wait: true })
+    var title = this.$(":input.title").val();
+    var self = this;
+
+    if(title.match(/^http/)) {
+      YandexRCA.request(title).then(function(data) {
+        self.collection.create({ title: data.title, picture: data.img[0], link: data.finalurl }, { wait: true })
+      }, function() {
+        self.collection.create({ title: title }, { wait: true })
+      });
+    } else {
+      self.collection.create({ title: title }, { wait: true })
+    }
     this.$(":input").val("");
 
     return false;

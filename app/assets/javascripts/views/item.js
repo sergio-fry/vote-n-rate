@@ -28,6 +28,7 @@ var ItemView = Backbone.View.extend({
     this.$el.html(JST["templates/item"]({
       position: this.position,
       title: _.escape(this.model.get("title")),
+      link: _.escape(this.model.get("link")),
     }));
 
 
@@ -37,6 +38,10 @@ var ItemView = Backbone.View.extend({
       if(!this.can_edit) {
         this.$(".picture-lg").remove();
       }
+    }
+
+    if(!this.model.get("link")) {
+      this.$(".link").remove();
     }
 
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
