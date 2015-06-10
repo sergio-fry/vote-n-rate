@@ -1,0 +1,17 @@
+<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init1" data-yashareL10n="ru" data-yashareQuickServices="vkontakte,odnoklassniki,moimir,twitter,facebook,gplus" data-yashareTheme="counter"></div>
+
+<div id="ya_share"></div>
+
+<script type="text/javascript"> 
+  // создаем блок
+  var YaShareInstance = new Ya.share({
+    element: 'ya_share',
+    theme: "counter",
+    elementStyle: {
+      quickServices: ["vkontakte","odnoklassniki","moimir","twitter","facebook","gplus"],
+    },
+    onshare: function(service) {
+      ga('send', 'event', 'social button', 'share', service);
+    },
+  });
+</script> 
