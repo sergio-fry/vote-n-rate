@@ -35,8 +35,11 @@
   <div class="items">
     <ol>
       <% for item in @rating.items %>
-        <li><%= item.title %></li>
-    <% end %>
+        <li>
+          <%= item.title %>
+          <%= image_tag(item.picture) if item.picture.present? %>
+        </li>
+      <% end %>
     </ol>
   </div>
 
