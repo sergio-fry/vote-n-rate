@@ -3,8 +3,7 @@
 <% end %>
 
 <% content_for :head do %>
-  <%= render partial: "shared/share_description", locals: { url: rating_url(@rating), text: @rating.description, title: @rating.title } %>
-  <link rel="canonical" href="<%= rating_url(@rating) %>" />
+  <link rel="canonical" href="http://vote-n-rate.ru<%= rating_path(@rating) %>" />
 
   <META name="description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" /> 
   <meta property="og:type" content="rating" /> 
