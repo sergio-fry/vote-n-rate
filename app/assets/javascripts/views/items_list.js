@@ -36,7 +36,7 @@ var ItemsListView = Backbone.View.extend({
     var self = this;
 
     _.chain(this.items).sortBy(function(el) {
-      return el.model.get("title");
+      return el.model.get("title").toLowerCase();
     }).sortBy(function(el) {
       return -el.model.get("rating");
     }).each(function(el, i) {
