@@ -29,6 +29,8 @@ var VoteButtonView = Backbone.View.extend({
   vote: function() {
     var self = this;
 
+    ga('send', 'event', 'button', 'click', 'vote');
+
     $.ajax(this.model.url() + "/vote", {
       method: "PUT",
     }).then(function(item){
@@ -38,6 +40,8 @@ var VoteButtonView = Backbone.View.extend({
 
   unvote: function() {
     var self = this;
+
+    ga('send', 'event', 'button', 'click', 'unvote');
 
     $.ajax(this.model.url() + "/unvote", {
       method: "PUT",

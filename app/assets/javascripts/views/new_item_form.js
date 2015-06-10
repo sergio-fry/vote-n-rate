@@ -14,6 +14,8 @@ var NewItemFormView = Backbone.View.extend({
   },
 
   onSubmit: function() {
+    ga('send', 'event', 'item', 'create');
+
     this.collection.create({ title: this.$(":input.title").val() }, { wait: true })
     this.$(":input").val("");
 
