@@ -6,6 +6,7 @@ class Rating < ActiveRecord::Base
 
   before_save :set_state
   scope :published, lambda { where(state: "published") }
+  scope :recent, lambda { order("created_at DESC") }
 
   pg_search_scope :search_by_hashtags,
     :against => [:title, :description],
@@ -17,7 +18,10 @@ class Rating < ActiveRecord::Base
   def items
     @_items ||= 
       super.to_s.split("\n").map do |line|
-        Item.load line.strip
+        item = Item.load line.strip
+        item.rating_id = id
+
+        item
       end
   end
 

@@ -2,6 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.ratings-index {
+  .teaser-line {
+    height: 50px;
+    overflow: hidden;
+    width: 100%;
+
+    .picture {
+      width: 50px; height: 50px; background: white;
+      background-size:cover;
+      background-position:center;
+      float: left;
+      margin-right: 5px;
+    }
+  }
+}
 
 .ratings-show {
   .rating-widget {
