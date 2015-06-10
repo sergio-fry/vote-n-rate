@@ -37,7 +37,7 @@
       <% for item in @rating.items.sort_by(&:rating).reverse %>
         <li>
           <%= item.title %>
-          <%= image_tag(item.picture, :width => "200px") if item.picture.present? %>
+          <%= image_tag(item.picture, :width => "200px", :alt => item.title) if item.picture.present? %>
         </li>
       <% end %>
     </ol>
