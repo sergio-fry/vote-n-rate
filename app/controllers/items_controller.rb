@@ -50,6 +50,8 @@ class ItemsController < ApplicationController
 
     @rating.update_item(params[:id], attrs)
 
+    @item = @rating.items.find { |it| it.id == params[:id] }
+
     render json: @item
   end
 
