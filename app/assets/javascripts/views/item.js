@@ -65,16 +65,21 @@ var ItemView = Backbone.View.extend({
     this.$(".title").replaceWith(edit_form);
     this.$(".controls").remove();
     input.focus();
+    this.edit_mode = true;
   },
 
   // при сохранении происходит перерисовка виджета, потому происходит
   // blur поля, что приводит к дублированному сохранению. Потому
   // делаем ограничение на сохранения не чаще, чем через 100ms
-  onSave: _.throttle(function() {
+  onSave: function() {
+    if(!this.edit_mode) return;
+
     this.model.save({ title: this.$(".edit_form :input").val() })
 
+    this.edit_mode = false;
+
     return false
-  }, 100),
+  },
 
   onDestroy: function() {
     if(confirm("Действительно хотите удалить этот пункт?")) {
