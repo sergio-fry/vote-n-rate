@@ -16,13 +16,12 @@ class Rating < ActiveRecord::Base
     }
 
   def items
-    @_items ||= 
-      super.to_s.split("\n").map do |line|
-        item = Item.load line.strip
-        item.rating_id = id
+    super.to_s.split("\n").map do |line|
+      item = Item.load line.strip
+      item.rating_id = id
 
-        item
-      end
+      item
+    end
   end
 
   def add_item(item)
@@ -33,11 +32,25 @@ class Rating < ActiveRecord::Base
     update_attribute :items, items.reject { |it| it.id.to_i == id.to_i }.map { |it| Item.dumb(it) }.join("\n")
   end
 
-  def vote_for(item_id, delta=1)
+  def vote_for(item_id, identity)
     item = items.find { |it| it.id == item_id }
 
-    if item.present?
+    if item.present? && !item.vote_for.include?(identity)
       item.rating += delta
+      item.vote_identites << identity
+    end
+
+    update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
+
+    item
+  end
+
+  def vote_for(item_id, identity)
+    item = items.find { |it| it.id == item_id }
+
+    if item.present? && !item.vote_for.include?(identity)
+      item.rating += delta
+      item.vote_identites << identity
     end
 
     update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
@@ -46,11 +59,12 @@ class Rating < ActiveRecord::Base
   end
 
   def update_item(item_id, attributes)
-    item = items.find { |it| it.id == item_id }
+    _items = items
+    item = _items.find { |it| it.id == item_id }
 
     item.attributes = attributes
 
-    update_attribute :items, items.map { |it| Item.dumb(it) }.join("\n")
+    update_attribute :items, _items.map { |it| Item.dumb(it) }.join("\n")
   end
 
   def similar

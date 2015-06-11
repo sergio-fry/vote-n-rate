@@ -9,11 +9,29 @@ class ItemsController < ApplicationController
   def vote
     @item = @rating.items.find { |it| it.id == params[:id] }
 
-    unless already_voted?(@item.id)
-      Rails.cache.fetch "RatingsController/#{request.ip}/#{@rating.id}/#{@item.id}", expires_in: 30.minutes do
-        @rating.vote_for(@item.id, 1)
-      end
+    if @item.present? && !@item.vote_identites.include?(current_user.identity)
+      @rating.update_item(@item.id, {
+        rating: @item.rating + 1,
+        vote_identites: @item.vote_identites + [current_user.identity],
+      })
     end
+
+    @item = @rating.items.find { |it| it.id == params[:id] }
+
+    render json: @item
+  end
+
+  def unvote
+    @item = @rating.items.find { |it| it.id == params[:id] }
+
+    if @item.present? && @item.vote_identites.include?(current_user.identity)
+      @rating.update_item(@item.id, {
+        rating: @item.rating - 1,
+        vote_identites: @item.vote_identites - [current_user.identity],
+      })
+    end
+
+    @item = @rating.items.find { |it| it.id == params[:id] }
 
     render json: @item
   end
@@ -22,17 +40,6 @@ class ItemsController < ApplicationController
     @item = @rating.items.find { |it| it.id == params[:id] }
 
     @rating.update_item(params[:id], params[:item])
-
-    render json: @item
-  end
-
-  def unvote
-    @item = @rating.items.find { |it| it.id == params[:id] }
-
-    if already_voted?(@item.id)
-      @rating.vote_for(@item.id, -1)
-      Rails.cache.delete "RatingsController/#{request.ip}/#{@rating.id}/#{@item.id}"
-    end
 
     render json: @item
   end

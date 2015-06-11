@@ -1,7 +1,9 @@
 var ItemModel = Backbone.Model.extend({
   defaults: {
     "rating": 0,
+    "vote_identites": [],
   },
+
   url: function() {
     var url;
 

@@ -7,14 +7,26 @@ class Item < OpenStruct
     item.to_json.to_s
   end
 
+  def id
+    super.to_s
+  end
+
   def rating
     super.to_i
   end
 
+  def vote_identites
+    super || []
+  end
+
   def attributes=(new_attrs)
-    self.title = new_attrs[:title]
-    self.picture = new_attrs[:picture]
-    self.link = new_attrs[:link]
+    new_attrs = new_attrs.clone.symbolize_keys
+    new_attrs.delete :id # protected
+
+
+    @table.merge!(new_attrs)
+
+    @table
   end
 
   def to_s
@@ -22,7 +34,7 @@ class Item < OpenStruct
   end
 
   def as_json(options)
-    { id: id, title: title, rating: rating, picture: picture, link: link }
+    to_h.merge(id: id)
   end
 
   def to_param

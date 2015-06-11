@@ -5,14 +5,9 @@ class ApplicationController < ActionController::Base
 
   JWT_SECRET = 'Jfu4760gJqteI2-5868fHwVnsgfEYu'
 
-  helper_method :already_voted?, :logged_in?, :current_user
+  helper_method :logged_in?, :current_user
 
   private
-
-  def already_voted?(item_id)
-    Rails.cache.exist? "RatingsController/#{request.ip}/#{@rating.id}/#{item_id}"
-  end
-
 
   def logged_in?
     current_user.id.present?
@@ -24,6 +19,8 @@ class ApplicationController < ActionController::Base
     if cookies[:auth_crypted].present?
       user_attrs, _ = JWT.decode cookies[:auth_crypted], JWT_SECRET
     end
+
+    user_attrs["identity"] = user_attrs["id"] || request.ip
 
     OpenStruct.new(user_attrs)
   end

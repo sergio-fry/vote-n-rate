@@ -25,11 +25,9 @@ window.current_user = new UserModel({
 DisplayRating(current_user);
 
 MazavrAuth("user_info", function(info) {
-  current_user.set({ id: info.id, name: info.name, image: info.image });
+  current_user.set({ id: info.id, name: info.name, image: info.image, ip: info.ip });
 
-  if(current_user.logged_in()) {
-    DisplayRating(current_user);
-  }
+  DisplayRating(current_user);
 
   $.cookie("avatar", info.image, { path: "/" });
   $.cookie("auth_crypted", info.crypted, { path: "/" });

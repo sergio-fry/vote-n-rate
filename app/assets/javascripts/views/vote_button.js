@@ -34,7 +34,7 @@ var VoteButtonView = Backbone.View.extend({
     $.ajax(this.model.url() + "/vote", {
       method: "PUT",
     }).then(function(item){
-      self.model.set("rating", item.rating);
+      self.model.set(item);
     });
   },
 
@@ -46,17 +46,15 @@ var VoteButtonView = Backbone.View.extend({
     $.ajax(this.model.url() + "/unvote", {
       method: "PUT",
     }).then(function(item){
-      self.model.set("rating", item.rating);
+      self.model.set(item);
     });
   },
 
   onClick: function() {
     if(this.already_voted()) {
       this.unvote()
-      $.cookie(this.model.url() + "/voted", null);
     } else {
       this.vote()
-      $.cookie(this.model.url() + "/voted", true);
     }
 
     return false;
@@ -89,8 +87,9 @@ var VoteButtonView = Backbone.View.extend({
       this.$(".btn").addClass("btn-default");
     }
   },
+
   already_voted: function() {
-    return !!$.cookie(this.model.url() + "/voted");
+    return (this.model.get("vote_identites") || []).indexOf(current_user.identity()) != -1;
   }
 });
 
