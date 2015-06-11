@@ -7,6 +7,9 @@ class ItemsController < ApplicationController
   end
 
   def vote
+    already_voted_items = @rating.items.find_all { |it| it.vote_identites.include?(current_user.identity) }
+    raise "Нельзя голосовать более чем за 3 пункта" if already_voted_items.size >= 3
+
     @item = @rating.items.find { |it| it.id == params[:id] }
 
     if @item.present? && !@item.vote_identites.include?(current_user.identity)
@@ -19,6 +22,9 @@ class ItemsController < ApplicationController
     @item = @rating.items.find { |it| it.id == params[:id] }
 
     render json: @item
+
+  rescue StandardError => ex
+    render json: { error: ex.to_s }, status: 403
   end
 
   def unvote

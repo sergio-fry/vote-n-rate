@@ -35,6 +35,8 @@ var VoteButtonView = Backbone.View.extend({
       method: "PUT",
     }).then(function(item){
       self.model.set(item);
+    }).fail(function(resp) {
+      alert(_.result(resp.responseJSON, "error", "Неизвестная ошибка"));
     });
   },
 

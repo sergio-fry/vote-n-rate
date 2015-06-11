@@ -16,7 +16,7 @@ class Item < OpenStruct
   end
 
   def vote_identites
-    super || []
+    (super || []).uniq
   end
 
   def attributes=(new_attrs)
@@ -34,7 +34,7 @@ class Item < OpenStruct
   end
 
   def as_json(options)
-    to_h.merge(id: id)
+    to_h.merge(id: id, vote_identites: vote_identites)
   end
 
   def to_param
