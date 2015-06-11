@@ -23,12 +23,19 @@
       <div class="col-md-10 title-wrapper">
 
         <span class="title">
+          <% if(can_edit) { %>
+            <%= title %>
+            <span class="link">
+              <a href="<%= link %>" target="_blank" title="Перейти на внешнюю страницу"><i class='glyphicon glyphicon-link'></i></a>
+            </span>
+          <% } else if(!!link) { %>
+            <a href="<%= link %>" target="_blank" title="Перейти на внешнюю страницу"><%= title %></a>
+          <% } else { %>
+            <%= title %>
+          <% }  %>
 
-          <%= title %>
-          <span class="link">
-            <a href="<%= link %>" target="_blank" title="Перейти на внешнюю страницу"><i class='glyphicon glyphicon-link'></i></a>
-          </span>
         </span>
+
         <div class="controls pull-right">
         </div>
       </div>

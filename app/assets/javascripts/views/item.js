@@ -29,6 +29,7 @@ var ItemView = Backbone.View.extend({
       position: this.position,
       title: _.escape(this.model.get("title")),
       link: _.escape(this.model.get("link")),
+      can_edit: this.can_edit,
     }));
 
 
