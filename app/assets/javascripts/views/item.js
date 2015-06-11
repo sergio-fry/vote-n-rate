@@ -74,7 +74,8 @@ var ItemView = Backbone.View.extend({
   onSave: function() {
     if(!this.edit_mode) return;
 
-    this.model.save({ title: this.$(".edit_form :input").val() })
+    this.model.set({ title: this.$(".edit_form :input").val() })
+    this.model.save();
 
     this.edit_mode = false;
 

@@ -45,7 +45,10 @@ class ItemsController < ApplicationController
   def update
     @item = @rating.items.find { |it| it.id == params[:id] }
 
-    @rating.update_item(params[:id], params[:item])
+    attrs = params[:item].symbolize_keys
+    attrs.delete(:vote_identites)
+
+    @rating.update_item(params[:id], attrs)
 
     render json: @item
   end
