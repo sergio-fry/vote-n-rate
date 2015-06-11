@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
       user_attrs, _ = JWT.decode cookies[:auth_crypted], JWT_SECRET
     end
 
-    user_attrs["identity"] = user_attrs["id"] || request.ip
+    user_attrs["identity"] = user_attrs["id"] || request.headers["CF-Connecting-IP"] || request.ip
 
     OpenStruct.new(user_attrs)
   end
