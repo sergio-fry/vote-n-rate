@@ -25,7 +25,7 @@ class RatingsController < ApplicationController
   # GET /ratings/1
   # GET /ratings/1.json
   def show
-    Rails.cache.fetch "RatingsController/#{request.ip}/#{@rating.id}/view", expires_in: 30.minutes do
+    Rails.cache.fetch "RatingsController/#{current_user.identity}/#{@rating.id}/view", expires_in: 30.minutes do
       Rating.where(id: params[:id]).update_all views: @rating.views + 1
     end
   end
