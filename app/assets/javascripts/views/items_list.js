@@ -35,7 +35,7 @@ var ItemsListView = Backbone.View.extend({
   },
 
   add_item: function(model) {
-    var view = new ItemView({model: model}, { can_edit: self.can_edit, rating_id: this.rating_id });
+    var view = new ItemView({model: model}, { can_edit: this.can_edit, rating_id: this.rating_id });
 
     view.position = (_(this.items).sortBy(function(it) { return -it.position })[0] || {position: 0}).position + 1;
 
