@@ -61,3 +61,11 @@
 </div>
 <br />
 <br />
+<br />
+
+
+<center>
+<% for rating in Rating.where.not(id: @ratings_popular.pluck(:id) + @ratings_recent.pluck(:id)).recent.limit(50) %>
+  <h2><%= link_to rating.title, rating %></h2>
+<% end %>
+</center>
