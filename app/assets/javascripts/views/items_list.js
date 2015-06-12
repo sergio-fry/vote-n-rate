@@ -64,7 +64,6 @@ var ItemsListView = Backbone.View.extend({
     var self = this;
 
 
-
     var sort_one = _.bind(function() {
       for(var i=0; i<(this.items.length-1); i++) {
         if(!this._check_order(this.items[i], this.items[i+1])) {
@@ -97,7 +96,7 @@ var ItemsListView = Backbone.View.extend({
       return true;
     } else if (item_a.model.get("rating") < item_b.model.get("rating")) {
       return false
-    } else if ((item_a.model.get("title") || "").toLowerCase() >= (item_b.model.get("title") || "").toLowerCase()) {
+    } else if ((item_a.model.get("title") || "").toLowerCase() > (item_b.model.get("title") || "").toLowerCase()) {
       return false
     }
 
