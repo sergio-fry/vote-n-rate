@@ -1,9 +1,8 @@
 var ItemView = Backbone.View.extend({
-  initialize: function() {
-    this.already_voted = !!this.$el.data("already-voted");
-    this.rating = this.$el.data("rating");
-
+  initialize: function(options, custom_options) {
     var self = this;
+    this.can_edit = custom_options.can_edit;
+    this.rating_id = custom_options.rating_id;
 
     this.model.on("change sync", function() {
       self.render();

@@ -1,15 +1,16 @@
 var ItemsListView = Backbone.View.extend({
-  initialize: function(options) {
+  initialize: function(options, custom_options) {
     var self = this;
+
+    this.can_edit = custom_options.can_edit;
+    this.rating_id = custom_options.rating_id;
 
     this.items = _.chain(this.collection.models).sortBy(function(m) {
       return (m.get("title") || "").toLowerCase();
     }).sortBy(function(m) {
       return -m.get("rating");
     }).map(function(m) {
-      var view = new ItemView({model: m});
-      view.can_edit = self.can_edit;
-      view.rating_id = self.rating_id;
+      var view = new ItemView({model: m}, { can_edit: self.can_edit, rating_id:  self.rating_id });
 
       return view
     }).each(function(el, i) {
@@ -34,9 +35,7 @@ var ItemsListView = Backbone.View.extend({
   },
 
   add_item: function(model) {
-    var view = new ItemView({model: model});
-    view.can_edit = this.can_edit;
-    view.rating_id = this.rating_id;
+    var view = new ItemView({model: model}, { can_edit: self.can_edit, rating_id: this.rating_id });
 
     view.position = (_(this.items).sortBy(function(it) { return -it.position })[0] || {position: 0}).position + 1;
 
