@@ -31,13 +31,13 @@
     var wrapper = document.getElementById(wrapper_id);
 
     var iframe = document.createElement('iframe');
-    iframe.src = "http://" + DOMAIN + "/ratings/" + rating_id + "?embed=iframe";
+    iframe.src = "//" + DOMAIN + "/ratings/" + rating_id + "?embed=iframe";
     iframe.width = "100%";
     iframe.frameBorder = 0;
     iframe.scrolling = "no";
     wrapper.appendChild(iframe);
 
-    attachScript("http://" + DOMAIN + "/js/iframeResizer.min.js", function() {
+    attachScript("//" + DOMAIN + "/js/iframeResizer.min.js", function() {
       iFrameResize();
     });
   }
