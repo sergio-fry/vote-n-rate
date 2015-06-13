@@ -1,5 +1,5 @@
 (function() {
-  var DOMAIN = "localhost:3000";
+  var DOMAIN = "vote-n-rate.ru";
 
   var Embed = {};
 
@@ -26,9 +26,6 @@
       });
     }, 0);
   }
-
-
-
 
   Embed.embed = function(rating_id, wrapper_id) {
     var wrapper = document.getElementById(wrapper_id);
