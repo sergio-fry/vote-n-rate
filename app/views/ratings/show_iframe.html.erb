@@ -1,0 +1,40 @@
+
+<% content_for :meta_title do %>
+  <%= @rating.title %>
+<% end %>
+
+<% content_for :head do %>
+  <link rel="canonical" href="http://vote-n-rate.ru<%= rating_path(@rating) %>" />
+
+  <META name="description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" /> 
+  <meta property="og:type" content="rating" /> 
+  <meta property="og:url" content="<%= rating_url(@rating) %>" /> 
+  <meta property="og:title" content="<%= @rating.title.to_s.truncate(140) %>" /> 
+  <!--
+  <meta property="og:image" content="" />
+  <link rel="image_src" href="" />
+  -->
+
+  <meta property="og:description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" />
+
+<% end %>
+
+<div class="rating">
+  <div class="items">
+    <% @rating.items.sort_by(&:rating).reverse.each_with_index do |item, i| %>
+      <p>
+        <%= i + 1 %>.<%= item.title %>
+        <%= image_tag(item.picture, :width => "200px", :alt => item.title) if item.picture.present? %>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  window.DATA = window.DATA || [];
+
+  window.DATA["ratings/items"] = <%= raw json_escape(@rating.items.sort_by(&:rating).reverse.to_json) %>;
+  window.DATA["ratings/rating"] = <%= raw json_escape(@rating.as_json(except: :items).to_json) %>;
+  window.DATA["ratings/items_path"] = "<%= rating_items_path(@rating) %>";
+<% end %>
+

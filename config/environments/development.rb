@@ -41,5 +41,5 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   #
-  config.x.auth_server = "localhost:5000"
+  config.x.auth_server = "login.russianpulse.ru"
 end

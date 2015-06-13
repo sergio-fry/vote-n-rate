@@ -28,6 +28,11 @@ class RatingsController < ApplicationController
     Rails.cache.fetch "RatingsController/#{current_user.identity}/#{@rating.id}/view", expires_in: 30.minutes do
       Rating.where(id: params[:id]).update_all views: @rating.views + 1
     end
+
+    response.headers.delete "X-Frame-Options"
+    response.headers["Content-Security-Policy"] = "frame-ancestors *"
+
+    render(layout: "iframe", template: "ratings/show_iframe") if params[:embed] == "iframe"
   end
 
   # GET /ratings/new
