@@ -31,7 +31,7 @@
     var wrapper = document.getElementById(wrapper_id);
 
     var iframe = document.createElement('iframe');
-    iframe.src = "//" + DOMAIN + "/ratings/" + rating_id + "?embed=iframe";
+    iframe.src = "//" + DOMAIN + "/iframe/ratings/" + rating_id;
     iframe.width = "100%";
     iframe.frameBorder = 0;
     iframe.scrolling = "no";

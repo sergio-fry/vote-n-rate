@@ -21,6 +21,15 @@
 
 <div class="container <%= "#{params[:controller]}-#{params[:action]}" %> <%= params[:controller] %>">
   <%= yield %>
+
+  <footer>
+    <center>
+      <small>
+        Бесплатные рейтинги
+        <a href="http://vote-n-rate.ru" target="_blank">Vote'n'Rate</a>
+      </small>
+    </center>
+  </footer>
 </div>
 
 <script src="//yastatic.net/jquery/2.1.3/jquery.min.js"></script>

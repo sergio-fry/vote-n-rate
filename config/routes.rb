@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       get 'file/:id', action: :file
       get 'file'
     end
+
+    get "ratings/:id", to: "ratings#show", embed: "iframe"
   end
 
   get 'home' => 'home#index', as: :home

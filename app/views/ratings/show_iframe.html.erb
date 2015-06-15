@@ -19,7 +19,13 @@
 
 <% end %>
 
+
 <div class="rating">
+  <div class="rating-widget text-center">
+    <h1><%= @rating.title %></h1>
+    <em><%= @rating.description %></em>
+  </div>
+
   <div class="items">
     <% @rating.items.sort_by(&:rating).reverse.each_with_index do |item, i| %>
       <p>
