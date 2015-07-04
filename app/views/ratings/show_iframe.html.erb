@@ -35,6 +35,14 @@
     <% end %>
   </div>
 </div>
+<footer>
+  <center>
+    <small>
+      Бесплатные рейтинги
+      <%= link_to "Vote'n'Rate!", rating_url(@rating), :target => "_blank" %>
+    </small>
+  </center>
+</footer>
 
 <%= javascript_tag do %>
   window.DATA = window.DATA || [];
