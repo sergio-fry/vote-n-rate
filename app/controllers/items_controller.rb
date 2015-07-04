@@ -2,6 +2,8 @@ class ItemsController < ApplicationController
   before_action :set_rating
   before_filter :authorize!, except: [:index, :vote, :unvote]
 
+  around_action :wrap_in_record_lock, only: [:vote, :unvote, :update, :create, :destroy]
+
   def index
     render json: @rating.items.sort_by(&:rating).reverse
   end
@@ -85,5 +87,11 @@ class ItemsController < ApplicationController
 
   def set_rating
     @rating = Rating.find(params[:rating_id])
+  end
+
+  def wrap_in_record_lock
+    @rating.with_lock do
+      yield
+    end
   end
 end

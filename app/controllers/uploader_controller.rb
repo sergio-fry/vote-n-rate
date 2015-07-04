@@ -22,6 +22,9 @@ class UploaderController < ApplicationController
 
     @upload.save!
 
+    # FIXME: нужно сделать блокировку, чтобы избежать коллизий
+    StoreUploadToCloudJob.set(wait_until: 10.minutes.from_now).perform_later @upload
+
     render json: { picture: url_for(:action => :file, :id => "#{@upload.id}-#{@upload.updated_at.to_i}", :format => "jpeg" ) }
   rescue StandardError => ex
     logger.error ex.backtrace

@@ -61,3 +61,9 @@ gem 'russian'
 gem 'twitter-text'
 gem 'pg_search'
 gem "mini_magick"
+
+gem 'aws-sdk'
+gem 'celluloid'
+gem 'celluloid-io'
+gem 'sidekiq'
+gem 'redis-objects'
