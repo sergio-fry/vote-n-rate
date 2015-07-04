@@ -26,8 +26,10 @@
     .description { max-width: 600px }
   }
 
+  h1 {
+    font-size: 40pt;
+  }
 
-  h1 { font-size: 40pt }
   .item {
     min-width: 400px;
 
@@ -38,7 +40,6 @@
 
       .btn-vote {
         position: relative; top: 10px;
-
 
         .vote-teaser { color: white }
       }
@@ -78,5 +79,38 @@
 
     .add-button { position: relative; top: 2px }
   }
+}
 
+@media screen and (max-width: 600px) {
+  .ratings-show {
+    h1 {
+      font-size: 28pt;
+    }
+
+    .item {
+      .title {
+        font-size: 16pt;
+      }
+
+      .vote-area {
+        min-width: 50px;
+
+        .btn-vote {
+          position: relative; top: 0px;
+
+          .vote-teaser { color: white }
+        }
+      }
+
+      .picture {
+        .picture_upload_label {
+          width: 30px; height: 30px; background: #eee; padding-top: 15px;
+        }
+
+        width: 30px; height: 30px; background: white;
+        background-size:cover;
+        background-position:center;
+      }
+    }
+  }
 }
