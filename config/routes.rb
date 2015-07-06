@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "feed" => "feed#index", as: :feed
+
   scope 'iframe' do
     scope 'uploader', controller: "uploader" do
       post 'upload', action: :upload_file
