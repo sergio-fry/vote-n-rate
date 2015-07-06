@@ -9,10 +9,14 @@
   <meta property="og:type" content="rating" /> 
   <meta property="og:url" content="<%= rating_url(@rating) %>" /> 
   <meta property="og:title" content="<%= @rating.title.to_s.truncate(140) %>" /> 
-  <!--
-  <meta property="og:image" content="" />
-  <link rel="image_src" href="" />
-  -->
+
+  <% rating_picture = @rating.items.sort_by(&:rating).reverse.find { |it| it.picture.present? }.try(:picture) %>
+
+  <% if rating_picture.present? %>
+    <meta property="og:image" content="<%= rating_picture %>" />
+    <link rel="image_src" href="<%= rating_picture %>" />
+  <% end %>
+
 
   <meta property="og:description" content="<%= strip_tags(@rating.description.to_s).gsub(/\s+/, " ").mb_chars.truncate(160) %>" />
 
