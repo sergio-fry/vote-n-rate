@@ -22,7 +22,7 @@ class UploaderController < ApplicationController
 
     @upload.save!
 
-    StoreUploadToCloudJob.perform_later @upload
+    StoreUploadToCloudJob.set(wait_until: 1.minute.from_now).perform_later @upload
 
     render json: { picture: url_for(:action => :file, :id => "#{@upload.id}-#{@upload.updated_at.to_i}", :format => "jpeg" ) }
   rescue StandardError => ex

@@ -17,7 +17,7 @@ class StoreUploadToCloudJob < ActiveJob::Base
       item = rating.items.find { |it| it.id == item_id }
       raise ActiveRecord::RecordNotFound if item.nil?
 
-      rating.update_item(item_id, { picture: picture_url })
+      rating.update_item(item_id, { picture: "#{picture_url}?t=#{Time.now.to_i}" })
     end
 
     upload.destroy
