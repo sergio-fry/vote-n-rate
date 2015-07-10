@@ -51,10 +51,16 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .title {
       font-size: 22pt;
 
-      .link { font-size: 12pt; margin-left: 10px; position: relative; top: -3px }
+      a { color: #333 }
+    }
+
+    .link {
+      font-size: 12pt; margin-left: 10px; position: relative; top: -3px;
+
       a { color: #333 }
     }
 
@@ -78,6 +84,16 @@
     max-width: 600px;
 
     .add-button { position: relative; top: 2px }
+  }
+
+  .item-edit-form {
+    max-width: 600px;
+
+    .picture-preview {
+      width: 100px; height: 100px;
+      background-size:cover;
+      background-position:center;
+    }
   }
 }
 
@@ -110,6 +126,11 @@
         width: 30px; height: 30px; background: white;
         background-size:cover;
         background-position:center;
+      }
+
+      .controls {
+        position: relative;
+        top: 2px;
       }
     }
   }

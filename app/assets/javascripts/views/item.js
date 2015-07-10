@@ -10,18 +10,14 @@ var ItemView = Backbone.View.extend({
   },
 
   events: {
-    "click .destroy": "onDestroy",
-    "click .title": "onEdit",
+    "click .btn-destroy": "onDestroy",
+    "click .btn-edit": "onEdit",
     "submit .edit_form": "onSave",
-    "blur .edit_form :input": "onSave",
-
-    "mouseenter .picture": "onHoverPicture",
-    "mouseleave .picture": "onHoverOutPicture",
-
-    "change .picture form :input.picture_file": "onPictureSelect",
+    "click .btn-cancel": "onCancelEdit",
+    "click .btn-cancel": "onCancelEdit",
+    "mouseenter": "showControls",
+    "mouseleave": "hideControls",
   },
-
-  template_controls: _.template("<a href='#' class='destroy btn btn-danger btn-xs'>Удалить</a>"),
 
   render: function() {
     this.$el.html(JST["templates/item"]({
@@ -34,10 +30,6 @@ var ItemView = Backbone.View.extend({
 
     if(!!this.model.get("picture")) {
       this.$(".picture").css({ "background-image": "url('" + this.model.get("picture") + "')" });
-    } else {
-      if(!this.can_edit) {
-        this.$(".picture-lg").remove();
-      }
     }
 
     if(!this.model.get("link")) {
@@ -47,36 +39,59 @@ var ItemView = Backbone.View.extend({
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
     button.render();
 
-    if(this.can_edit) {
-      this.$(".controls").append(this.template_controls());
-    }
-    
     return this;
   },
 
   onEdit: function() {
     if(!this.can_edit) return;
 
-    var edit_form = $("<form class='edit_form form'>");
-    var input = $("<input class='input form-control'>").val(this.model.get("title"));
-    edit_form.append(input);
+    this.$el.html(JST["templates/item_edit"]({
+      id: this.model.id,
+      rating_id: this.rating_id,
+      title: this.model.get("title"),
+      link: this.model.get("link"),
+      picture: this.model.get("picture"),
+    }));
 
-    this.$(".title").replaceWith(edit_form);
-    this.$(".controls").remove();
-    input.focus();
-    this.edit_mode = true;
+    if(!!this.model.get("picture")) {
+      this.$(".picture-preview").css({ "background-image": "url('" + this.model.get("picture") + "')" });
+    }
+
+    this.$(".input-title").focus();
   },
 
-  // при сохранении происходит перерисовка виджета, потому происходит
-  // blur поля, что приводит к дублированному сохранению. Потому
-  // делаем ограничение на сохранения не чаще, чем через 100ms
   onSave: function() {
-    if(!this.edit_mode) return;
+    var form = this.$(".edit_form");
 
-    this.model.set({ title: this.$(".edit_form :input").val() })
+    this.model.set({
+      title: form.find(".input-title").val(),
+      link: form.find(".input-link").val(),
+    })
+
+    var self = this;
+
+    $.ajax( {
+      url: '/iframe/uploader/upload',
+      type: 'POST',
+      data: new FormData( form[0] ),
+      processData: false,
+      contentType: false
+    } ).then(function(data) {
+      if(!!data["error"]) {
+        alert(data["error"]);
+      } else {
+        self.model.save({picture: data["picture"]});
+      }
+    });
+
+
     this.model.save();
 
-    this.edit_mode = false;
+    return false
+  },
+
+  onCancelEdit: function() {
+    this.render();
 
     return false
   },
@@ -93,27 +108,12 @@ var ItemView = Backbone.View.extend({
     return false
   },
 
-  onHoverPicture: function() {
-    if(!this.can_edit) return;
-
-    // TODO: set owner
-    var form = $('<form  enctype="multipart/form-data" action="/iframe/uploader/upload" accept-charset="UTF-8" method="post"><label for="picture_'+this.model.id+'"><div class="picture_upload_label text-center">Фото</div></label><input id="picture_'+this.model.id+'" type="file" class="picture_file hidden" name="file" ><input type="hidden" name="owner" value="'+this.rating_id+"/"+this.model.id+'" /></form>');
-
-    this.$(".picture:visible").html(form);
-  },
-
-  onHoverOutPicture: function() {
-    if(!this.can_edit) return;
-
-    this.$(".picture form").remove();
-  },
-
   onPictureSelect: function() {
     if(!this.can_edit) return;
 
     var self = this;
 
-    this.$(".picture form:visible").submit(function(e) {
+    this.$(".picture form").submit(function(e) {
       $.ajax( {
         url: '/iframe/uploader/upload',
         type: 'POST',
@@ -130,6 +130,14 @@ var ItemView = Backbone.View.extend({
 
       e.preventDefault();
     }).submit();
+  },
+
+  showControls: function() {
+    this.$(".controls").removeClass("hidden");
+  },
+
+  hideControls: function() {
+    this.$(".controls").addClass("hidden");
   },
 });
 

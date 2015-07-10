@@ -78,5 +78,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.x.auth_server = "login.russianpulse.ru"
-  Rails.application.config.active_job.queue_adapter = :sidekiq
 end
