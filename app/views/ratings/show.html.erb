@@ -42,6 +42,7 @@
       <p>
         <%= image_tag(item.picture, :width => "200px", :alt => item.title) if item.picture.present? %>
       </p>
+      <%= simple_format(item.text) %>
     <% end %>
   </div>
 

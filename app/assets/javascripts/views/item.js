@@ -20,20 +20,20 @@ var ItemView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(JST["templates/item"]({
+    var template = !!this.model.get("text") ? JST["templates/item_with_text"] : JST["templates/item"];
+
+    this.$el.html(template({
       position: this.position,
       title: _.escape(this.model.get("title")),
+      picture: _.escape(this.model.get("picture")),
       link: _.escape(this.model.get("link")),
+      text: _.escape(this.model.get("text")),
       can_edit: this.can_edit,
     }));
 
 
     if(!!this.model.get("picture")) {
       this.$(".picture").css({ "background-image": "url('" + this.model.get("picture") + "')" });
-    }
-
-    if(!this.model.get("link")) {
-      this.$(".link").remove();
     }
 
     button = new VoteButtonView({el: this.$(".vote-area"), model: this.model})
@@ -49,6 +49,7 @@ var ItemView = Backbone.View.extend({
       id: this.model.id,
       rating_id: this.rating_id,
       title: this.model.get("title"),
+      text: this.model.get("text"),
       link: this.model.get("link"),
       picture: this.model.get("picture"),
     }));
@@ -58,6 +59,8 @@ var ItemView = Backbone.View.extend({
     }
 
     this.$(".input-title").focus();
+
+    return false;
   },
 
   onSave: function() {
@@ -66,23 +69,27 @@ var ItemView = Backbone.View.extend({
     this.model.set({
       title: form.find(".input-title").val(),
       link: form.find(".input-link").val(),
+      text: form.find(".input-text").val(),
     })
 
     var self = this;
 
-    $.ajax( {
-      url: '/iframe/uploader/upload',
-      type: 'POST',
-      data: new FormData( form[0] ),
-      processData: false,
-      contentType: false
-    } ).then(function(data) {
-      if(!!data["error"]) {
-        alert(data["error"]);
-      } else {
-        self.model.save({picture: data["picture"]});
-      }
-    });
+
+    if(form.find(":input[type='file']").val() != "") {
+      $.ajax( {
+        url: '/iframe/uploader/upload',
+        type: 'POST',
+        data: new FormData( form[0] ),
+        processData: false,
+        contentType: false
+      } ).then(function(data) {
+        if(!!data["error"]) {
+          alert(data["error"]);
+        } else {
+          self.model.save({picture: data["picture"]});
+        }
+      });
+    }
 
 
     this.model.save();

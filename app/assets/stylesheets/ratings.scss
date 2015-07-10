@@ -46,10 +46,20 @@
       .rating { padding-left: 7px }
     }
 
-    .title-wrapper {
+    .text-wrapper {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      .text {
+        white-space: normal;
+        overflow: none;
+        text-overflow: none;
+
+        .picture-full { 
+          padding-bottom: 10px;
+        }
+      }
     }
 
     .title {

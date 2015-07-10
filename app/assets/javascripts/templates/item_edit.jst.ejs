@@ -12,6 +12,11 @@
     </div>
 
     <div class="form-group">
+      <label for="text-<%= id %>">Текст</label>
+      <textarea class="form-control input-text" id="text-<%= id %>"><%= text %></textarea>
+    </div>
+
+    <div class="form-group">
       <label for="picture-file-<%= id %>">Изображение</label>
 
       <input type="hidden" name="picture" value="<%= picture %>" />
