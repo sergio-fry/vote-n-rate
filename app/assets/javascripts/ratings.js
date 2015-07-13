@@ -6,7 +6,13 @@
       var collection = new ItemsCollection(DATA["ratings/items"]);
       collection.items_path = DATA["ratings/items_path"];
 
-      var can_edit = current_user.get("id") == (DATA["ratings/rating"].user_id).toString()
+      var can_edit;
+
+      if(w.data("readonly")) {
+        can_edit = false;
+      } else {
+        can_edit = current_user.get("id") == (DATA["ratings/rating"].user_id).toString();
+      }
 
       var rating = new RatingView({ el: w.find(".rating-widget"), model: new RatingModel(DATA["ratings/rating"]) }); 
       rating.can_edit = can_edit;
