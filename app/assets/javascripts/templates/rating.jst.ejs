@@ -3,4 +3,7 @@
 
   <br />
   <div class="description"><%= description %></div>
+  <% if(can_edit) { %>
+    <div class="controls btn btn-edit btn-primary" style="opacity: 0.0">Редактировать</div>
+  <% } %>
 </center>

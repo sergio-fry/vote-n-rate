@@ -8,6 +8,8 @@ var RatingView = Backbone.View.extend({
     "click .rendered": "onEdit",
     "submit .edit-form": "onSave",
     "reset .edit-form": "onReset",
+    "mouseenter": "showControls",
+    "mouseleave": "hideControls",
   },
 
   render: function() {
@@ -16,6 +18,7 @@ var RatingView = Backbone.View.extend({
     this.$el.html(JST["templates/rating"]({
       title: _.escape(this.model.get("title")),
       description: _.escape(this.model.get("description")).replace(/\n+/, "<br /><br />"),
+      can_edit: this.can_edit,
     }));
   },
 
@@ -47,6 +50,15 @@ var RatingView = Backbone.View.extend({
 
   onReset: function() {
     this.render();
-  }
+  },
+
+
+  showControls: function() {
+    this.$(".controls").css({ opacity: 1 });
+  },
+
+  hideControls: function() {
+    this.$(".controls").css({ opacity: 0 });
+  },
 })
 
