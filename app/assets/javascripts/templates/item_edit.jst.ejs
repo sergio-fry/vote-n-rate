@@ -1,31 +1,28 @@
 <div class="item item-edit-form">
-  <form class='edit_form form' enctype="multipart/form-data"  accept-charset="UTF-8">
+  <form action="/ratings/<%= rating_id %>/items/<%= id %>" class='edit_form form' enctype="multipart/form-data"  accept-charset="UTF-8">
 
     <div class="form-group">
       <label for="title-<%= id %>">Заголовок <sup>*</sup></label>
-      <input type="text" class="form-control input-title" id="title-<%= id %>" value="<%= title %>" placeholder="">
+      <input type="text" class="form-control input-title" id="title-<%= id %>" value="<%= title %>" name="item[title]" placeholder="">
     </div>
 
     <div class="form-group">
       <label for="link-<%= id %>">Ссылка</label>
-      <input type="text" class="form-control input-link" id="link-<%= id %>" value="<%= link %>" placeholder="URL-адрес сраницы">
+      <input type="text" class="form-control input-link" id="link-<%= id %>" value="<%= link %>" name="item[link]" placeholder="URL-адрес сраницы">
     </div>
 
     <div class="form-group">
       <label for="text-<%= id %>">Текст</label>
-      <textarea class="form-control input-text" id="text-<%= id %>"><%= text %></textarea>
+      <textarea class="form-control input-text" id="text-<%= id %>" name="item[text]"><%= text %></textarea>
     </div>
 
     <div class="form-group">
       <label for="picture-file-<%= id %>">Изображение</label>
 
-      <input type="hidden" name="picture" value="<%= picture %>" />
-
       <img src="<%= picture %>" class="img-responsive" />
       <br />
 
-      <input type="hidden" name="owner" value="<%= rating_id %>/<%= id %>" />
-      <input type="file" id="picture-file-<%= id %>" name="file" class="picture-new">
+      <input type="file" id="picture-file-<%= id %>" name="item[picture_file]" class="picture-new">
     </div>
 
     <input type="submit" value="Сохранить" class="btn btn-primary" style="margin-left: 10px" />

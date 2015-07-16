@@ -65,34 +65,21 @@ var ItemView = Backbone.View.extend({
 
   onSave: function() {
     var form = this.$(".edit_form");
-
-    this.model.set({
-      title: form.find(".input-title").val(),
-      link: form.find(".input-link").val(),
-      text: form.find(".input-text").val(),
-    })
-
     var self = this;
 
-
-    if(form.find(":input[type='file']").val() != "") {
-      $.ajax( {
-        url: '/iframe/uploader/upload',
-        type: 'POST',
-        data: new FormData( form[0] ),
-        processData: false,
-        contentType: false
-      } ).then(function(data) {
-        if(!!data["error"]) {
-          alert(data["error"]);
-        } else {
-          self.model.save({picture: data["picture"]});
-        }
-      });
-    }
-
-
-    this.model.save();
+    $.ajax( {
+      url: form.attr("action"),
+      type: 'PUT',
+      data: new FormData( form[0] ),
+      processData: false,
+      contentType: false
+    } ).then(function(data) {
+      if(!!data["error"]) {
+        alert(data["error"]);
+      } else {
+        self.model.set(data);
+      }
+    });
 
     return false
   },
@@ -113,30 +100,6 @@ var ItemView = Backbone.View.extend({
     }
 
     return false
-  },
-
-  onPictureSelect: function() {
-    if(!this.can_edit) return;
-
-    var self = this;
-
-    this.$(".picture form").submit(function(e) {
-      $.ajax( {
-        url: '/iframe/uploader/upload',
-        type: 'POST',
-        data: new FormData( this ),
-        processData: false,
-        contentType: false
-      } ).then(function(data) {
-        if(!!data["error"]) {
-          alert(data["error"]);
-        } else {
-          self.model.save({picture: data["picture"]});
-        }
-      });
-
-      e.preventDefault();
-    }).submit();
   },
 
   showControls: function() {

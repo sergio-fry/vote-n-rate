@@ -50,6 +50,15 @@ class ItemsController < ApplicationController
     attrs = params[:item].symbolize_keys
     attrs.delete(:vote_identites)
 
+    picture_file = attrs.delete(:picture_file)
+
+    if picture_file.present?
+      upload = upload_file(picture_file, "#{@rating.id}/#{@item.id}")
+
+      attrs[:picture] = temp_file_url(upload.id, t: Time.now.to_i)
+    end
+
+
     @rating.update_item(params[:id], attrs)
 
     @item = @rating.items.find { |it| it.id == params[:id] }
@@ -92,6 +101,31 @@ class ItemsController < ApplicationController
   def wrap_in_record_lock
     @rating.with_lock do
       yield
+    end
+  end
+
+  # TODO: limit file size
+  # upload_file(params[:file], ":rating_id/:item_id")
+  def upload_file(file_upload, owner)
+    image = MiniMagick::Image.open(file_upload.tempfile.path)
+    image.resize "500x500>"
+    image.format "jpeg"
+
+    tempfile = Tempfile.new "item_picture"
+    image.write(tempfile)
+
+    owner = "#{current_user.id}/#{owner}"
+
+    upload = Upload.find_by(owner: owner) || Upload.new(owner: owner)
+
+    upload.mime_type = "image/jpeg"
+    upload.extension = ".jpeg"
+    upload.body = tempfile.read
+
+    if upload.save
+      StoreUploadToCloudJob.set(wait: 1.minute).perform_later upload
+
+      upload
     end
   end
 end

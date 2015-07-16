@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   scope 'iframe' do
     scope 'uploader', controller: "uploader" do
       post 'upload', action: :upload_file
-      get 'file/:id', action: :file
+      get 'file/:id', action: :file, as: :temp_file
       get 'file'
     end
 
