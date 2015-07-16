@@ -1,14 +1,20 @@
 var NewItemFormView = Backbone.View.extend({
-  initialize: function() {
+  initialize: function(options, custom_options) {
+    this.rating_id = custom_options.rating_id;
   },
 
   events: {
+    "submit": "onSubmit",
     "click .add-button": "onSubmit",
-    "submit form": "onSubmit",
+
+    "click .btn-show-extra-fields": "onShowMore",
   },
 
   render: function() {
-    this.$el.html(JST["templates/new_item_form"]({}));
+    this.$el.html(JST["templates/new_item_form"]({
+      rating_id: this.rating_id,
+      id: Math.random(),
+    }));
 
     return this;
   },
@@ -16,27 +22,38 @@ var NewItemFormView = Backbone.View.extend({
   onSubmit: function() {
     ga('send', 'event', 'item', 'create');
 
-    var title = this.$(":input.title").val();
-    var self = this;
+    var self = this
+    var form = this.$("form");
 
-    if(title.match(/^http/)) {
-      YandexRCA.request(title).then(function(data) {
-        var attrs = { title: data.title, link: data.finalurl };
+    $.ajax( {
+      url: form.attr("action"),
+      type: 'POST',
+      data: new FormData( form[0] ),
+      processData: false,
+      contentType: false
+    } ).then(function(data) {
+      if(!!data["error"]) {
+        alert(data["error"]);
+      } else {
+        var item = new ItemModel(data);
+        self.collection.push(item)
+      }
+    });
 
-        if(!!data.img) {
-          attrs.picture = data.img[0];
-        }
-
-        self.collection.create(attrs, { wait: true })
-      }, function() {
-        self.collection.create({ title: title }, { wait: true })
-      });
-    } else {
-      self.collection.create({ title: title }, { wait: true })
-    }
     this.$(":input").val("");
 
     return false;
+  },
+
+  onShowMore: function() {
+    var fields = this.$(".extra-fields");
+
+    if(fields.hasClass("hidden")) {
+      fields.removeClass("hidden").hide();
+    }
+    fields.slideToggle();
+
+    return false
   },
 })
 

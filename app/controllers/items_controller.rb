@@ -47,12 +47,7 @@ class ItemsController < ApplicationController
   def update
     @item = @rating.items.find { |it| it.id == params[:id] }
 
-    attrs = params[:item].symbolize_keys
-    attrs.delete(:vote_identites)
-
-
-    # не разрешаем ставить url напрямую
-    attrs.delete(:picture)
+    attrs = item_params
 
     picture_file = attrs.delete(:picture_file)
 
@@ -71,9 +66,25 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new params[:item]
+    attrs = item_params
+
+    picture_file = attrs.delete(:picture_file)
+
+    @item = Item.new attrs
     @item.id = next_item_id
     @rating.add_item @item
+
+    if picture_file.present?
+      upload = upload_file(picture_file, "#{@rating.id}/#{@item.id}")
+
+      attrs[:picture] = temp_file_url(upload.id, t: Time.now.to_i)
+    end
+
+    @rating.update_item(@item.id, attrs)
+
+    #reload
+    @item = @rating.items.find { |it| it.id == @item.id }
+
 
     render json: @item
   end
@@ -131,5 +142,9 @@ class ItemsController < ApplicationController
 
       upload
     end
+  end
+
+  def item_params
+    params.require(:item).permit(:title, :text, :picture_file, :link)
   end
 end

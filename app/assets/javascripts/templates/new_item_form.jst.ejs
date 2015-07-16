@@ -1,8 +1,35 @@
-<form>
+<form action="/ratings/<%= rating_id %>/items" class='new_item_form form' enctype="multipart/form-data"  accept-charset="UTF-8">
   <div class="row">
     <div class="col-xs-11">
       <div class="form-group">
-        <input type="text" class="form-control title" id="newItemTitle" placeholder="Новый элемент">
+        <input name="item[title]" type="text" class="form-control title" id="newItemTitle" placeholder="Новый элемент" autocomplete="off">
+      </div>
+      <div class="form-group pull-right">
+        <label for="picture-file-<%= id %>" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-picture"></i> Изображение</label>
+        <a href="#" class="btn btn-show-extra-fields btn-xs btn-default"><i class="fa fa-plus-square-o"></i> Еще</a>
+      </div>
+
+      <div class="extra-fields hidden row text-left">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="link-<%= id %>">Ссылка</label>
+            <input type="text" class="form-control input-link" id="link-<%= id %>" value="" name="item[link]" placeholder="URL-адрес сраницы">
+          </div>
+
+          <div class="form-group">
+            <label for="text-<%= id %>">Текст</label>
+            <textarea class="form-control input-text" id="text-<%= id %>" name="item[text]"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="picture-file-<%= id %>">Изображение</label>
+            <br />
+
+            <input type="file" id="picture-file-<%= id %>" name="item[picture_file]" class="picture-new">
+          </div>
+
+          <input type="submit" value="Добавить" class="btn btn-primary" />
+        </div>
       </div>
     </div>
     <div class="col-xs-1">
@@ -11,4 +38,5 @@
       </div>
     </div>
   </div>
+
 </form>

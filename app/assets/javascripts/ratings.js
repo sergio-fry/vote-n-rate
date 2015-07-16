@@ -22,7 +22,7 @@
       items_list.render();
 
       if(can_edit) {
-        new NewItemFormView({ el: $(".new-item-form"), collection: collection }).render();
+        new NewItemFormView({ el: $(".new-item-form"), collection: collection }, { rating_id: DATA["ratings/rating"].id  }).render();
       }
     }
   }
