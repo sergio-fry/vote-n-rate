@@ -4,6 +4,7 @@ class RatingsController < ApplicationController
   before_filter :authorize_record!, only: [:update, :destroy]
   skip_before_action :verify_authenticity_token, only: :fake_votes
   before_filter :check_subdomain, :if => lambda { Rails.env.production? }
+  around_action :wrap_in_record_lock, only: [:update, :destroy]
 
   def fake_votes
     @rating = Rating.find_by(id: params[:rating_id])
@@ -85,6 +86,12 @@ class RatingsController < ApplicationController
   end
 
   private
+
+  def wrap_in_record_lock
+    @rating.with_lock do
+      yield
+    end
+  end
 
   def authorize_record!
     if @rating.user_id != current_user.id

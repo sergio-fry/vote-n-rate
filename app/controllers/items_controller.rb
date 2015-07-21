@@ -50,6 +50,10 @@ class ItemsController < ApplicationController
     attrs = params[:item].symbolize_keys
     attrs.delete(:vote_identites)
 
+
+    # не разрешаем ставить url напрямую
+    attrs.delete(:picture)
+
     picture_file = attrs.delete(:picture_file)
 
     if picture_file.present?
@@ -123,7 +127,7 @@ class ItemsController < ApplicationController
     upload.body = tempfile.read
 
     if upload.save
-      StoreUploadToCloudJob.set(wait: 1.minute).perform_later upload
+      StoreUploadToCloudJob.perform_later upload
 
       upload
     end
