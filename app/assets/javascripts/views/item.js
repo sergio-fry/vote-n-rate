@@ -81,6 +81,8 @@ var ItemView = Backbone.View.extend({
       }
     });
 
+    this.render();
+
     return false
   },
 
