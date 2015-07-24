@@ -40,7 +40,7 @@ var NewItemFormView = Backbone.View.extend({
       }
     });
 
-    this.$(":input").val("");
+    this.$(":input").not("[type='submit']").val("");
 
     return false;
   },
