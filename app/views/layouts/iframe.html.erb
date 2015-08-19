@@ -13,11 +13,10 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
-  <%= render :partial => 'shared/ga' %>
-
   <%= yield :head %>
 </head>
 <body>
+<%= render :partial => 'shared/gtm' %>
 
 <div class="container <%= "#{params[:controller]}-#{params[:action]}" %> <%= params[:controller] %>">
   <%= yield %>
