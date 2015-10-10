@@ -6,7 +6,7 @@ class UpdateRatingFeedJob < ActiveJob::Base
       feed = Feedjira::Feed.fetch_and_parse rating.feed_url
 
       feed.entries.sort_by(&:published).reverse.each do |entry|
-        item = Item.new(id: Time.now.to_f.to_s.sub(".", ""), title: entry.title, link: entry.url)
+        item = Item.new(id: Time.now.to_f.to_s.sub(".", ""), title: Nokogiri::HTML(entry.title).text, link: entry.url)
 
         item.text = text_short(entry.content.presence || entry.summary || "")
 
