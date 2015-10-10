@@ -1,4 +1,6 @@
 class Item < OpenStruct
+  # :title, :text, :picture_file, :link
+
   def self.load(line)
     new(JSON.parse(line))
   end

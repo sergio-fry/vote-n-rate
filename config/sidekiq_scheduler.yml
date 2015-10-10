@@ -1,0 +1,5 @@
+blogs_update:
+  cron: "*/10 * * * *"
+  class: CronJobRunner
+  args: ['UpdateRatingFeedJob', []]
+

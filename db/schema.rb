@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609111450) do
+ActiveRecord::Schema.define(version: 20151010204829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,10 +21,12 @@ ActiveRecord::Schema.define(version: 20150609111450) do
     t.text     "items"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.integer  "user_id",     default: 0,       null: false
+    t.integer  "user_id",                       null: false
     t.integer  "views",       default: 0,       null: false
     t.string   "state",       default: "draft", null: false
     t.text     "description"
+    t.string   "feed_url"
+    t.integer  "items_limit"
   end
 
   add_index "ratings", ["state"], name: "index_ratings_on_state", using: :btree

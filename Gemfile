@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.4'
+ruby '2.2.2'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -66,4 +66,6 @@ gem 'aws-sdk'
 gem 'celluloid'
 gem 'celluloid-io'
 gem 'sidekiq'
+gem 'sidekiq-scheduler'
 gem 'redis-objects'
+gem 'feedjira'
