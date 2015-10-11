@@ -17,6 +17,10 @@ class Item < OpenStruct
     super.to_i
   end
 
+  def created_at
+    super.try(:to_time)
+  end
+
   def vote_identites
     (super || []).uniq
   end

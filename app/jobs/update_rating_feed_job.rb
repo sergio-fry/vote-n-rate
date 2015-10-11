@@ -6,16 +6,15 @@ class UpdateRatingFeedJob < ActiveJob::Base
       feed = Feedjira::Feed.fetch_and_parse rating.feed_url
 
       feed.entries.sort_by(&:published).reverse.each do |entry|
-        item = Item.new(id: Time.now.to_f.to_s.sub(".", ""), title: Nokogiri::HTML(entry.title).text, link: entry.url)
+        item = Item.new(id: Time.now.to_f.to_s.sub(".", ""), title: Nokogiri::HTML(entry.title).text, link: entry.url, created_at: entry.published)
 
         item.text = text_short(entry.content.presence || entry.summary || "")
-
         unless rating.items.detect { |it| it.link == item.link }
           rating.add_item item
         end
       end
 
-      ids = rating.items.map(&:id).sort
+      ids = rating.items.sort_by{ |it| it.created_at || 1.year.ago }
       (rating.items.size - (rating.items_limit || 50)).times do
         rating.delete_item ids.shift
       end
