@@ -14,7 +14,7 @@ class UpdateRatingFeedJob < ActiveJob::Base
         end
       end
 
-      ids = rating.items.sort_by{ |it| it.created_at || 1.year.ago }
+      ids = rating.items.sort_by{ |it| it.created_at || 1.year.ago }.map(&:id)
       (rating.items.size - (rating.items_limit || 50)).times do
         rating.delete_item ids.shift
       end
