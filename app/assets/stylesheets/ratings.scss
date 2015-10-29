@@ -47,9 +47,9 @@
     }
 
     .text-wrapper {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      //white-space: nowrap;
+      //overflow: hidden;
+      //text-overflow: ellipsis;
 
       .text {
         white-space: normal;
@@ -109,13 +109,23 @@
 
 @media screen and (max-width: 600px) {
   .ratings-show {
-    h1 {
-      font-size: 28pt;
+    .rating {
+      h1 {
+        font-size: 18pt;
+      }
+
+      .description {
+      }
+
     }
 
     .item {
       .title {
-        font-size: 16pt;
+        font-size: 13pt;
+      }
+
+      .text {
+        font-size: 10pt;
       }
 
       .vote-area {
