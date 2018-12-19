@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    networks:
+      - webnet
+    depends_on:
+      - db
+
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db/votenrate
+
+    volumes:
+      - "/dev/null:/app/config/database.yml"
+      - "./:/app"
+
+    ports:
+      - "3000:80"
+    command: "bundle exec rails server -b 0.0.0.0 -p 80"
+
+  db:
+    image: postgres
+    networks:
+      - webnet
+
+networks:
+  webnet:
